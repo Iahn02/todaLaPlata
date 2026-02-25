@@ -1,0 +1,118 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ═══════════════════════════════════════════
+// 👤 USUARIO
+// ═══════════════════════════════════════════
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  avatarUrl String?
+  currency  String   @default("CLP")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  accounts     Account[]
+  categories   Category[]
+  transactions Transaction[]
+  budgets      Budget[]
+}
+
+// ═══════════════════════════════════════════
+// 🏦 CUENTA (banco, efectivo, tarjeta, etc.)
+// ═══════════════════════════════════════════
+model Account {
+  id             String   @id @default(cuid())
+  name           String
+  type           String   // "bank" | "cash" | "credit_card" | "savings" | "investment"
+  balance        Float    @default(0)
+  icon           String   @default("wallet")
+  color          String   @default("#6366f1")
+  includeInTotal Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relaciones
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+// ═══════════════════════════════════════════
+// 🏷️ CATEGORÍA (alimentación, transporte, etc.)
+// ═══════════════════════════════════════════
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  icon      String   @default("tag")
+  color     String   @default("#8b5cf6")
+  type      String   // "income" | "expense"
+  createdAt DateTime @default(now())
+
+  // Relaciones
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  budgets      Budget[]
+
+  @@index([userId])
+}
+
+// ═══════════════════════════════════════════
+// 💸 TRANSACCIÓN (ingreso o gasto)
+// ═══════════════════════════════════════════
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  type        String   // "income" | "expense" | "transfer"
+  description String?
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId  String
+  account    Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([accountId])
+  @@index([categoryId])
+  @@index([date])
+}
+
+// ═══════════════════════════════════════════
+// 📊 PRESUPUESTO (límite por categoría)
+// ═══════════════════════════════════════════
+model Budget {
+  id        String   @id @default(cuid())
+  amount    Float
+  period    String   @default("monthly") // "weekly" | "monthly" | "yearly"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId, period])
+  @@index([userId])
+}
