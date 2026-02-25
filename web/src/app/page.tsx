@@ -1,440 +1,217 @@
+import React from "react";
+
 export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: "var(--bg-page)" }}>
+    <div className="min-h-screen relative overflow-hidden flex flex-col font-sans">
       {/* ═══════════════════════════════════════
-          NAVBAR
+          NAVBAR — Estilo Monefy Landing Page
           ═══════════════════════════════════════ */}
-      <nav
-        className="sticky top-0 z-50"
-        style={{
-          background: "rgba(255, 255, 255, 0.72)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          WebkitBackdropFilter: "saturate(180%) blur(20px)",
-        }}
-      >
-        <div className="container-app flex h-14 items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--accent)] text-sm font-semibold text-white">
-              $
-            </div>
-            <span
-              className="text-[17px] font-semibold text-[var(--text-primary)]"
-              style={{ letterSpacing: "-0.03em" }}
+      <nav className="relative z-50 py-6">
+        <div className="container-app flex items-center justify-between">
+          <div className="flex items-center gap-12">
+            {/* Logo */}
+            <div
+              className="text-3xl font-bold tracking-tight text-[var(--brand-primary)] italic"
+              style={{ fontFamily: "Georgia, serif", paddingRight: "1rem" }}
             >
-              toda<span className="text-[var(--brand-primary)]">LaPlata</span>
-            </span>
+              todaLaPlata
+            </div>
+
+            {/* Links Desktop */}
+            <div className="hidden lg:flex items-center gap-6">
+              <a href="#" className="text-sm font-semibold text-[var(--text-primary)] hover:opacity-70 transition-opacity">Finanzas Personales</a>
+              <a href="#" className="text-sm font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors">Inversiones</a>
+              <a href="#" className="text-sm font-medium text-[var(--text-light)] bg-white/30 px-4 py-1.5 rounded-full backdrop-blur-sm shadow-sm pointer-events-none">Banca</a>
+              <a href="#" className="text-sm font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors">Tarjetas</a>
+              <a href="#" className="text-sm font-medium text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors">Préstamos</a>
+            </div>
           </div>
 
-          <div className="hidden items-center gap-1 md:flex">
-            <a href="#" className="nav-link nav-link-active">
-              Dashboard
-            </a>
-            <a href="#" className="nav-link">
-              Transacciones
-            </a>
-            <a href="#" className="nav-link">
-              Presupuestos
-            </a>
-            <a href="#" className="nav-link">
-              Cuentas
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button className="btn btn-icon btn-secondary text-sm" aria-label="Notificaciones">
-              🔔
-            </button>
-            <div className="avatar">VP</div>
-          </div>
+          <button className="btn-dark hidden md:inline-flex">Obtener app</button>
         </div>
       </nav>
 
       {/* ═══════════════════════════════════════
-          CONTENIDO
+          HERO SECTION
           ═══════════════════════════════════════ */}
-      <main className="container-app pt-16 pb-20">
-        {/* Header */}
-        <div className="animate-fade-in mb-14">
-          <p className="mb-3 text-sm text-[var(--text-tertiary)]">Martes, 25 de febrero 2026</p>
+      <main className="flex-1 container-app relative z-10 flex flex-col lg:flex-row items-center justify-between pt-12 lg:pt-20 pb-24">
+
+        {/* LADO IZQUIERDO — Textos y Call to Actions */}
+        <div className="w-full lg:w-[45%] z-20 animate-slide-left">
+          {/* Badge Downloads */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-2 text-[var(--brand-gold)]">
+              {/* SVG Laurel wreath (simulado) */}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
+                <path d="M12,22C6.477,22 2,17.523 2,12C2,6.477 6.477,2 12,2C17.523,2 22,6.477 22,12C22,17.523 17.523,22 12,22ZM12,20C16.418,20 20,16.418 20,12C20,7.582 16.418,4 12,4C7.582,4 4,7.582 4,12C4,16.418 7.582,20 12,20ZM11,7L13,7L13,17L11,17L11,7Z" />
+              </svg>
+              <div className="text-sm font-bold text-[var(--text-primary)] leading-tight">
+                +11 millones<br />descargas
+              </div>
+            </div>
+            <div className="w-px h-8 bg-black/10 mx-2"></div>
+            <div className="flex items-center gap-2 text-[var(--brand-gold)]">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
+                <path d="M12,22C6.477,22 2,17.523 2,12C2,6.477 6.477,2 12,2C17.523,2 22,6.477 22,12C22,17.523 17.523,22 12,22ZM12,20C16.418,20 20,16.418 20,12C20,7.582 16.418,4 12,4C7.582,4 4,7.582 4,12C4,16.418 7.582,20 12,20ZM11,7L13,7L13,17L11,17L11,7Z" />
+              </svg>
+              <div className="text-sm font-semibold text-[var(--text-tertiary)] opacity-60 leading-tight">
+                "Mejor App de Finanzas"<br />🍎
+              </div>
+            </div>
+          </div>
+
+          {/* Gran Título */}
           <h1
-            className="max-w-xl text-[48px] font-bold text-[var(--text-primary)]"
-            style={{ letterSpacing: "-0.045em", lineHeight: 1.05 }}
+            className="text-[52px] lg:text-[72px] font-bold leading-[1.05] tracking-tight text-[var(--text-primary)] mb-6"
           >
-            Bienvenido de vuelta.
+            Toma el control<br />de tus finanzas
           </h1>
-        </div>
 
-        {/* ─── RESUMEN FINANCIERO ─── */}
-        <div className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {/* Balance */}
-          <div
-            className="card animate-fade-in-up"
-            style={{
-              opacity: 0,
-              animationDelay: "100ms",
-              animationFillMode: "forwards",
-              padding: "2rem 2.25rem",
-            }}
-          >
-            <p className="mb-1 text-[13px] font-medium text-[var(--text-secondary)]">
-              Balance Total
-            </p>
-            <p
-              className="amount font-bold text-[var(--text-primary)]"
-              style={{ fontSize: "2.75rem", letterSpacing: "-0.04em", lineHeight: 1.1 }}
-            >
-              $1.250.000
-            </p>
-            <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-              <span className="font-medium text-[var(--income)]">↑ 12.5%</span> respecto al mes
-              anterior
-            </p>
+          {/* Párrafo */}
+          <p className="text-[17px] text-[var(--text-secondary)] leading-relaxed mb-10 max-w-md">
+            La app inteligente que te ayuda a registrar gastos, ahorrar dinero y alcanzar tus metas financieras con facilidad.
+          </p>
+
+          {/* Botones App Stores */}
+          <div className="flex flex-wrap items-center gap-4 mb-10">
+            <a href="#" className="store-btn">
+              <span className="text-3xl text-white"></span>
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-wider text-white/70">Descargar en la</span>
+                <span className="text-lg font-semibold leading-tight">App Store</span>
+              </div>
+            </a>
+            <a href="#" className="store-btn">
+              <span className="text-3xl text-white">▶</span>
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-wider text-white/70">Disponible en</span>
+                <span className="text-lg font-semibold leading-tight">Google Play</span>
+              </div>
+            </a>
           </div>
 
-          {/* Ingresos */}
-          <div
-            className="card animate-fade-in-up"
-            style={{
-              opacity: 0,
-              animationDelay: "200ms",
-              animationFillMode: "forwards",
-              padding: "2rem 2.25rem",
-            }}
-          >
-            <p className="mb-1 text-[13px] font-medium text-[var(--text-secondary)]">
-              Ingresos del mes
+          {/* Reviews */}
+          <div>
+            <p className="text-sm font-semibold text-[var(--text-primary)] mb-2">
+              Elegida por +11.000.000 de usuarios en el mundo
             </p>
-            <p
-              className="amount amount-income font-bold"
-              style={{ fontSize: "2.75rem", letterSpacing: "-0.04em", lineHeight: 1.1 }}
-            >
-              +$850.000
-            </p>
-            <div className="progress-bar mt-5" style={{ height: "8px" }}>
-              <div
-                className="progress-bar-fill"
-                style={{ width: "100%", background: "var(--income)" }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Gastos */}
-          <div
-            className="card animate-fade-in-up"
-            style={{
-              opacity: 0,
-              animationDelay: "300ms",
-              animationFillMode: "forwards",
-              padding: "2rem 2.25rem",
-            }}
-          >
-            <p className="mb-1 text-[13px] font-medium text-[var(--text-secondary)]">
-              Gastos del mes
-            </p>
-            <p
-              className="amount amount-expense font-bold"
-              style={{ fontSize: "2.75rem", letterSpacing: "-0.04em", lineHeight: 1.1 }}
-            >
-              -$420.000
-            </p>
-            <div className="progress-bar mt-5" style={{ height: "8px" }}>
-              <div
-                className="progress-bar-fill"
-                style={{ width: "65%", background: "var(--expense)" }}
-              ></div>
+            <div className="flex items-center gap-2">
+              <div className="flex text-[var(--brand-gold)] text-xl">
+                ★★★★★
+              </div>
+              <span className="text-sm font-bold text-[var(--text-primary)]">4.7</span>
+              <span className="text-sm text-[var(--text-tertiary)]">+283,000 valoraciones</span>
             </div>
           </div>
         </div>
 
-        {/* ─── GRID PRINCIPAL ─── */}
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
-          {/* ─── TRANSACCIONES ─── */}
-          <div className="lg:col-span-3">
-            <div
-              className="card animate-fade-in-up"
-              style={{
-                opacity: 0,
-                animationDelay: "400ms",
-                animationFillMode: "forwards",
-                padding: "2rem 2.25rem",
-              }}
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[13px] font-medium text-[var(--text-secondary)]">
-                  Actividad reciente
-                </p>
-                <a href="#" className="text-[13px] text-[var(--brand-primary)] hover:underline">
-                  Ver todas →
-                </a>
+        {/* LADO DERECHO — Celular + Elementos Flotantes */}
+        <div className="w-full lg:w-[50%] mt-20 lg:mt-0 relative h-[650px] flex items-center justify-center animate-slide-up" style={{ animationDelay: "200ms" }}>
+
+          {/* Múltiples Monedas Flotantes ($) */}
+          <div className="absolute top-10 right-10 w-16 h-16 bg-[var(--brand-gold)] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-[0_10px_20px_rgba(226,186,101,0.5)] border-b-4 border-r-4 border-[#c99f4d] animate-float z-30">
+            $
+          </div>
+          <div className="absolute bottom-16 right-20 w-20 h-20 bg-[var(--brand-gold)] rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-[0_10px_25px_rgba(226,186,101,0.5)] border-b-4 border-r-4 border-[#c99f4d] animate-float z-30" style={{ animationDelay: "1.5s" }}>
+            $
+          </div>
+          <div className="absolute top-1/4 left-10 w-12 h-12 bg-[var(--brand-gold)] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-[0_8px_15px_rgba(226,186,101,0.5)] border-b-4 border-r-4 border-[#c99f4d] animate-float-delayed z-0">
+            $
+          </div>
+
+          {/* Tarjetas de Categorías Flotantes */}
+          <div className="absolute top-20 left-12 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-white z-30 animate-float" style={{ animationDelay: "0.5s", transform: "rotate(-5deg)" }}>
+            <div className="w-10 h-10 bg-[#e8f2ec] rounded-xl flex items-center justify-center text-[var(--brand-accent)] text-xl">🛒</div>
+            <span className="text-[11px] font-bold text-[var(--text-primary)]">Súper</span>
+            <span className="text-[10px] text-[var(--text-secondary)]">$45.90</span>
+          </div>
+
+          <div className="absolute top-1/3 right-4 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-white z-30 animate-float-delayed" style={{ transform: "rotate(8deg)" }}>
+            <div className="w-10 h-10 bg-[#f9ebeb] rounded-xl flex items-center justify-center text-[var(--expense)] text-xl">☕</div>
+            <span className="text-[11px] font-bold text-[var(--text-primary)]">Café</span>
+            <span className="text-[10px] text-[var(--text-secondary)]">$2.49</span>
+          </div>
+
+          <div className="absolute bottom-32 left-8 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-white z-30 animate-float" style={{ animationDelay: "1s", transform: "rotate(-12deg)" }}>
+            <div className="w-10 h-10 bg-[#e8eef2] rounded-xl flex items-center justify-center text-[#5a8fd4] text-xl">📺</div>
+            <span className="text-[11px] font-bold text-[var(--text-primary)]">Netflix</span>
+            <span className="text-[10px] text-[var(--text-secondary)]">$17.99</span>
+          </div>
+
+          {/* CELLPHONE MOCKUP CSS */}
+          <div
+            className="relative w-[300px] h-[610px] bg-[#1a1a1c] rounded-[48px] p-3 shadow-2xl z-20 flex flex-col"
+            style={{ transform: "rotate(5deg)", boxShadow: "-20px 30px 60px rgba(12, 62, 46, 0.2)" }}
+          >
+            {/* Pantalla del celular */}
+            <div className="bg-[#f0f4f1] w-full h-full rounded-[38px] overflow-hidden relative flex flex-col pt-8 border-[0.5px] border-black/10">
+
+              {/* Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1c] rounded-b-2xl z-50"></div>
+
+              {/* App Header */}
+              <div className="px-6 flex items-center justify-between mb-6 relative z-10">
+                <div className="text-xl font-bold italic" style={{ fontFamily: "Georgia, serif", color: "var(--brand-accent)" }}>toda<span className="text-[#1a1a1c]">LaPlata</span></div>
+                <button className="text-[var(--text-primary)] opacity-50">🔍</button>
               </div>
-              <h2
-                className="mb-8 text-[28px] font-bold text-[var(--text-primary)]"
-                style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
-              >
-                Transacciones Recientes
-              </h2>
 
-              <div className="space-y-2">
-                {/* Transacción 1 */}
-                <div className="tx-row">
-                  <div className="tx-icon" style={{ background: "var(--expense-subtle)" }}>
-                    🛒
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-[var(--text-primary)]">
-                      Supermercado Líder
-                    </p>
-                    <p className="mt-0.5 text-[13px] text-[var(--text-tertiary)]">
-                      Alimentación · Hoy
-                    </p>
-                  </div>
-                  <span className="amount amount-expense text-[15px] font-semibold">-$45.600</span>
-                </div>
-
-                {/* Transacción 2 */}
-                <div className="tx-row">
-                  <div className="tx-icon" style={{ background: "var(--income-subtle)" }}>
-                    💼
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-[var(--text-primary)]">
-                      Sueldo Mensual
-                    </p>
-                    <p className="mt-0.5 text-[13px] text-[var(--text-tertiary)]">Salario · Ayer</p>
-                  </div>
-                  <span className="amount amount-income text-[15px] font-semibold">+$850.000</span>
-                </div>
-
-                {/* Transacción 3 */}
-                <div className="tx-row">
-                  <div className="tx-icon" style={{ background: "var(--expense-subtle)" }}>
-                    🚗
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-[var(--text-primary)]">
-                      Bencina
-                    </p>
-                    <p className="mt-0.5 text-[13px] text-[var(--text-tertiary)]">
-                      Transporte · Hace 2 días
-                    </p>
-                  </div>
-                  <span className="amount amount-expense text-[15px] font-semibold">-$32.000</span>
-                </div>
-
-                {/* Transacción 4 */}
-                <div className="tx-row">
-                  <div className="tx-icon" style={{ background: "var(--expense-subtle)" }}>
-                    🎮
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-[var(--text-primary)]">
-                      Netflix + Spotify
-                    </p>
-                    <p className="mt-0.5 text-[13px] text-[var(--text-tertiary)]">
-                      Entretenimiento · Hace 3 días
-                    </p>
-                  </div>
-                  <span className="amount amount-expense text-[15px] font-semibold">-$12.990</span>
-                </div>
-
-                {/* Transacción 5 */}
-                <div className="tx-row">
-                  <div className="tx-icon" style={{ background: "var(--income-subtle)" }}>
-                    💻
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-[var(--text-primary)]">
-                      Freelance Diseño Web
-                    </p>
-                    <p className="mt-0.5 text-[13px] text-[var(--text-tertiary)]">
-                      Freelance · Hace 5 días
-                    </p>
-                  </div>
-                  <span className="amount amount-income text-[15px] font-semibold">+$180.000</span>
-                </div>
+              {/* Meses Pestañas */}
+              <div className="px-4 flex justify-between items-center mb-8 text-[11px] uppercase tracking-wider font-semibold text-[var(--text-tertiary)] border-b border-black/5 pb-2 relative z-10">
+                <span>Septiembre</span>
+                <span className="text-[var(--brand-accent)] border-b-2 border-[var(--brand-accent)] pb-2 -mb-[9px]">Octubre</span>
+                <span>Noviembre</span>
               </div>
+
+              {/* Gráfico Donut Chart + Balance */}
+              <div className="relative z-10 flex-1 flex flex-col items-center">
+
+                {/* CSS Donut */}
+                <div className="relative w-48 h-48 rounded-full border-[18px] border-[var(--brand-accent)] shadow-[inset_0_4px_10px_rgba(0,0,0,0.05)] mx-auto"
+                  style={{
+                    borderTopColor: "var(--brand-gold)",
+                    borderLeftColor: "var(--expense)",
+                    borderRightColor: "#5a8fd4",
+                    transform: "rotate(45deg)"
+                  }}
+                >
+                  <div className="absolute inset-0 rounded-full border-[6px] border-[#f0f4f1]"></div>
+                </div>
+
+                {/* Texto Central */}
+                <div className="absolute top-24 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center w-full z-20">
+                  <span className="text-[22px] font-bold text-[var(--brand-primary)]">$5,000.00</span>
+                  <span className="text-[13px] font-medium text-[var(--expense)]">($1,684.00)</span>
+                </div>
+
+                {/* Badge Balance */}
+                <div className="mt-8 bg-[var(--brand-accent)] text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md">
+                  Balance $3,315.00
+                </div>
+
+                {/* Botones de acción inferiores (+ y -) */}
+                <div className="flex justify-center gap-10 mt-auto mb-10 w-full px-12">
+                  <div className="w-14 h-14 rounded-full border-4 border-[var(--expense)] text-[var(--expense)] flex items-center justify-center text-3xl font-medium bg-[#fcf2f2] shadow-sm cursor-pointer hover:bg-[var(--expense)] hover:text-white transition-colors">-</div>
+                  <div className="w-14 h-14 rounded-full border-4 border-[var(--brand-accent)] text-[var(--brand-accent)] flex items-center justify-center text-3xl font-medium bg-[#f0f9f3] shadow-sm cursor-pointer hover:bg-[var(--brand-accent)] hover:text-white transition-colors">+</div>
+                </div>
+
+              </div>
+
+              {/* Footer Phone */}
+              <div className="h-12 border-t border-black/5 flex items-center px-6">
+                <span className="text-[10px] text-[var(--text-tertiary)] uppercase font-semibold">Transacciones</span>
+              </div>
+
             </div>
           </div>
 
-          {/* ─── SIDEBAR ─── */}
-          <div className="space-y-5 lg:col-span-2">
-            {/* Cuentas */}
-            <div
-              className="card animate-fade-in-up"
-              style={{
-                opacity: 0,
-                animationDelay: "500ms",
-                animationFillMode: "forwards",
-                padding: "2rem 2.25rem",
-              }}
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[13px] font-medium text-[var(--text-secondary)]">Tus finanzas</p>
-                <div className="add-btn">+</div>
-              </div>
-              <h2
-                className="mb-7 text-[28px] font-bold text-[var(--text-primary)]"
-                style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
-              >
-                Mis Cuentas
-              </h2>
-
-              <div className="space-y-3">
-                <div className="account-row">
-                  <div
-                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-lg"
-                    style={{ background: "var(--brand-primary-subtle)" }}
-                  >
-                    🏦
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[15px] font-semibold text-[var(--text-primary)]">
-                      Banco Santander
-                    </p>
-                    <p className="amount mt-0.5 text-[13px] text-[var(--text-secondary)]">
-                      $980.000
-                    </p>
-                  </div>
-                </div>
-
-                <div className="account-row">
-                  <div
-                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-lg"
-                    style={{ background: "var(--income-subtle)" }}
-                  >
-                    💵
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[15px] font-semibold text-[var(--text-primary)]">Efectivo</p>
-                    <p className="amount mt-0.5 text-[13px] text-[var(--text-secondary)]">
-                      $120.000
-                    </p>
-                  </div>
-                </div>
-
-                <div className="account-row">
-                  <div
-                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-lg"
-                    style={{ background: "var(--expense-subtle)" }}
-                  >
-                    💳
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[15px] font-semibold text-[var(--text-primary)]">
-                      Tarjeta CMR
-                    </p>
-                    <p className="amount amount-expense mt-0.5 text-[13px]">-$150.000</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Presupuestos */}
-            <div
-              className="card animate-fade-in-up"
-              style={{
-                opacity: 0,
-                animationDelay: "600ms",
-                animationFillMode: "forwards",
-                padding: "2rem 2.25rem",
-              }}
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[13px] font-medium text-[var(--text-secondary)]">
-                  Control mensual
-                </p>
-                <span className="badge badge-neutral">Febrero</span>
-              </div>
-              <h2
-                className="mb-7 text-[28px] font-bold text-[var(--text-primary)]"
-                style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
-              >
-                Presupuestos
-              </h2>
-
-              <div className="space-y-7">
-                {/* Alimentación */}
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[15px] font-semibold text-[var(--text-primary)]">
-                      🛒 Alimentación
-                    </span>
-                    <span className="amount text-[13px] text-[var(--text-secondary)]">
-                      $85.000 / $120.000
-                    </span>
-                  </div>
-                  <div className="progress-bar" style={{ height: "8px" }}>
-                    <div
-                      className="progress-bar-fill"
-                      style={{ width: "71%", background: "var(--warning)" }}
-                    ></div>
-                  </div>
-                  <p className="mt-2 text-[12px] font-medium" style={{ color: "var(--warning)" }}>
-                    71% utilizado
-                  </p>
-                </div>
-
-                {/* Transporte */}
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[15px] font-semibold text-[var(--text-primary)]">
-                      🚗 Transporte
-                    </span>
-                    <span className="amount text-[13px] text-[var(--text-secondary)]">
-                      $32.000 / $80.000
-                    </span>
-                  </div>
-                  <div className="progress-bar" style={{ height: "8px" }}>
-                    <div
-                      className="progress-bar-fill"
-                      style={{ width: "40%", background: "var(--income)" }}
-                    ></div>
-                  </div>
-                  <p className="mt-2 text-[12px] font-medium" style={{ color: "var(--income)" }}>
-                    40% utilizado
-                  </p>
-                </div>
-
-                {/* Entretenimiento */}
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[15px] font-semibold text-[var(--text-primary)]">
-                      🎮 Entretenimiento
-                    </span>
-                    <span className="amount text-[13px] text-[var(--text-secondary)]">
-                      $42.990 / $50.000
-                    </span>
-                  </div>
-                  <div className="progress-bar" style={{ height: "8px" }}>
-                    <div
-                      className="progress-bar-fill"
-                      style={{ width: "86%", background: "var(--expense)" }}
-                    ></div>
-                  </div>
-                  <p className="mt-2 text-[12px] font-medium" style={{ color: "var(--expense)" }}>
-                    86% utilizado ⚠️
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-
-        {/* Botón flotante */}
-        <button className="fab-button" aria-label="Agregar transacción">
-          +
-        </button>
       </main>
 
-      {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid var(--border-default)" }}>
-        <div className="container-app flex items-center justify-between py-8">
-          <p className="text-[13px] text-[var(--text-tertiary)]">
-            © 2026 todaLaPlata — Control de Finanzas Personales
-          </p>
-          <p className="text-[13px] text-[var(--text-tertiary)]">Hecho con 💙 en Chile</p>
-        </div>
-      </footer>
+      {/* Botón Flotante (Izquierda abajo estilo soporte) */}
+      <button className="fixed bottom-6 left-6 btn-accent text-sm hidden md:flex items-center gap-2 z-50 rounded-lg shadow-lg">
+        <span>×</span> OBTENER CONSEJOS
+      </button>
+
     </div>
   );
 }

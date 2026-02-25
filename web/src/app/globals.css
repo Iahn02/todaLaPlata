@@ -1,314 +1,188 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   🎨 DESIGN SYSTEM — todaLaPlata
-   Estética minimalista inspirada en Apple
+   🎨 DESIGN SYSTEM — monefy
+   Inspirado en Monefy (Tonos verdes, mint y negro)
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Backgrounds — página blanca, cards grises */
-  --bg-page: #ffffff;
-  --bg-card: #f5f5f7;
-  --bg-card-hover: #e8e8ed;
-  --bg-surface: #ffffff;
-  --bg-nested: #e8e8ed;
-  --bg-nested-hover: #dcdce0;
+  /* Backgrounds */
+  --bg-page: #DAF1DE;
+  /* Fondo Mint (El más claro) */
+  --bg-dark: #051F20;
+  /* Verde casi negro (El más oscuro) */
+  --bg-card: #ffffff;
+  --bg-nested: #e8f4ec;
 
-  /* Text — escala Apple */
-  --text-primary: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --text-tertiary: #86868b;
-  --text-quaternary: #aeaeb2;
+  /* Text */
+  --text-primary: #051F20;
+  /* Verde oscuro principal */
+  --text-secondary: #0B2B26;
+  --text-tertiary: #163832;
+  --text-light: #ffffff;
 
-  /* Brand — Azul Apple */
-  --brand-primary: #0071e3;
-  --brand-primary-hover: #0077ed;
-  --brand-primary-subtle: rgba(0, 113, 227, 0.08);
-
-  /* Accent */
-  --accent: #5856d6;
-  --accent-subtle: rgba(88, 86, 214, 0.08);
+  /* Brand */
+  --brand-primary: #051F20;
+  --brand-accent: #8EB69B;
+  /* Verde menta acento */
+  --brand-gold: #e2ba65;
+  /* Dorado monedas */
 
   /* Semantic */
-  --income: #34c759;
-  --income-hover: #30d158;
-  --income-subtle: rgba(52, 199, 89, 0.1);
+  --income: #8EB69B;
+  --expense: #d46b6b;
+  --warning: #e2ba65;
 
-  --expense: #ff3b30;
-  --expense-hover: #ff453a;
-  --expense-subtle: rgba(255, 59, 48, 0.1);
-
-  --warning: #ff9500;
-  --warning-subtle: rgba(255, 149, 0, 0.1);
-
-  /* Borders — casi invisibles */
-  --border-default: rgba(0, 0, 0, 0.04);
-  --border-active: rgba(0, 113, 227, 0.3);
-
-  /* Shadows — mínimas */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
-
-  /* Radius — generosos como Apple */
+  /* Radius */
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
-  --radius-2xl: 28px;
+  --radius-2xl: 32px;
   --radius-full: 9999px;
 
-  /* Transitions */
-  --transition-fast: 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
-  --transition-base: 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Shadows */
+  --shadow-sm: 0 4px 6px rgba(12, 62, 46, 0.05);
+  --shadow-md: 0 10px 25px rgba(12, 62, 46, 0.1);
+  --shadow-lg: 0 20px 40px rgba(12, 62, 46, 0.15);
+
+  --transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* ───────────────────────────────────────────
-   🔗 TAILWIND THEME TOKENS
-   ─────────────────────────────────────────── */
 @theme inline {
   --color-background: var(--bg-page);
   --color-foreground: var(--text-primary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --color-brand: var(--brand-primary);
-  --color-income: var(--income);
-  --color-expense: var(--expense);
-  --color-warning: var(--warning);
-  --color-page: var(--bg-page);
-  --color-card: var(--bg-card);
-  --color-muted: var(--text-secondary);
+  --color-accent: var(--brand-accent);
 }
 
-/* ───────────────────────────────────────────
-   🌐 ESTILOS BASE
-   ─────────────────────────────────────────── */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 body {
-  background: var(--bg-page);
+  background-color: var(--bg-page);
   color: var(--text-primary);
-  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
-  line-height: 1.47059;
-  letter-spacing: -0.022em;
-  min-height: 100vh;
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+  /* Topographic pattern simulation con gradientes radiales para dar textura */
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
-::selection {
-  background: var(--brand-primary-subtle);
-  color: var(--brand-primary);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--text-quaternary);
-  border-radius: var(--radius-full);
-  border: 2px solid var(--bg-page);
-}
-
-/* ───────────────────────────────────────────
-   🧩 CARDS — Estilo Apple (fondo gris, sin sombra)
-   ─────────────────────────────────────────── */
-.card {
-  background: var(--bg-card);
-  border-radius: var(--radius-2xl);
-  padding: 2rem;
-  border: none;
-  transition: all var(--transition-base);
-}
-
-.card-elevated {
-  background: var(--bg-card);
-  border-radius: var(--radius-2xl);
-  padding: 2rem;
-  border: none;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-base);
+.container-app {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* ───────────────────────────────────────────
    🔘 BOTONES
    ─────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-weight: 400;
-  font-size: 0.9375rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--radius-full);
+.btn-dark {
+  background-color: #051F20;
+  color: white;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
   border: none;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  text-decoration: none;
-}
-
-.btn:active {
-  transform: scale(0.97);
-}
-
-.btn-primary {
-  background: var(--brand-primary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--brand-primary-hover);
-}
-
-.btn-secondary {
-  background: var(--bg-card);
-  color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-  background: var(--bg-card-hover);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--brand-primary);
-  padding: 0.5rem 0.75rem;
-}
-
-.btn-ghost:hover {
-  background: var(--brand-primary-subtle);
-}
-
-.btn-text {
-  background: transparent;
-  color: var(--brand-primary);
-  padding: 0;
-}
-
-.btn-text:hover {
-  text-decoration: underline;
-}
-
-.btn-sm {
-  font-size: 0.8125rem;
-  padding: 0.375rem 0.875rem;
-}
-
-.btn-icon {
-  width: 2.25rem;
-  height: 2.25rem;
-  padding: 0;
-  border-radius: var(--radius-full);
-}
-
-/* ───────────────────────────────────────────
-   🏷️ BADGES
-   ─────────────────────────────────────────── */
-.badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
+  gap: 0.5rem;
 }
 
-.badge-brand {
-  background: var(--brand-primary-subtle);
-  color: var(--brand-primary);
+.btn-dark:hover {
+  background-color: #0B2B26;
+  transform: translateY(-2px);
 }
 
-.badge-income {
-  background: var(--income-subtle);
-  color: var(--income);
-}
-
-.badge-expense {
-  background: var(--expense-subtle);
-  color: var(--expense);
-}
-
-.badge-warning {
-  background: var(--warning-subtle);
-  color: var(--warning);
-}
-
-.badge-neutral {
-  background: rgba(142, 142, 147, 0.12);
-  color: var(--text-secondary);
-}
-
-/* ───────────────────────────────────────────
-   👤 AVATAR
-   ─────────────────────────────────────────── */
-.avatar {
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--brand-primary), var(--accent));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.75rem;
-  color: white;
-  flex-shrink: 0;
-}
-
-/* ───────────────────────────────────────────
-   📊 INPUTS
-   ─────────────────────────────────────────── */
-.input {
-  width: 100%;
-  background: var(--bg-page);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
+.btn-accent {
+  background-color: var(--brand-accent);
   color: var(--text-primary);
-  font-size: 0.9375rem;
-  outline: none;
-  transition: all var(--transition-fast);
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
 }
 
-.input::placeholder {
-  color: var(--text-quaternary);
+.btn-accent:hover {
+  background-color: #235347;
+  color: white;
+  transform: translateY(-2px);
 }
 
-.input:focus {
-  border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px var(--brand-primary-subtle);
+/* App Store Buttons */
+.store-btn {
+  background-color: #051F20;
+  border-radius: 12px;
+  padding: 0.5rem 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.store-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(5, 31, 32, 0.4);
 }
 
 /* ───────────────────────────────────────────
-   ✨ ANIMACIONES
+   ✨ ANIMACIONES FLOTANTES
    ─────────────────────────────────────────── */
-@keyframes fadeIn {
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes float-delayed {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideInLeft {
   from {
     opacity: 0;
+    transform: translateX(-40px);
   }
 
   to {
     opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@keyframes fadeInUp {
+@keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(40px);
   }
 
   to {
@@ -317,178 +191,29 @@ body {
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.7s ease-out forwards;
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
-/* ───────────────────────────────────────────
-   🔢 MONTOS
-   ─────────────────────────────────────────── */
-.amount {
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
+.animate-slide-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
-.amount-income {
-  color: var(--income);
+.animate-slide-up {
+  animation: slideInUp 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  opacity: 0;
 }
 
-.amount-expense {
-  color: var(--expense);
-}
-
-/* ───────────────────────────────────────────
-   📐 LAYOUT
-   ─────────────────────────────────────────── */
-.container-app {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* Progress bars */
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-nested);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-/* ───────────────────────────────────────────
-   🔗 NAV LINKS
-   ─────────────────────────────────────────── */
-.nav-link {
-  padding: 0.5rem 1rem;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  background: var(--bg-card);
-  color: var(--text-primary);
-}
-
-.nav-link-active {
-  color: var(--text-primary);
-  background: var(--bg-card);
-}
-
-/* ───────────────────────────────────────────
-   💸 TRANSACTION ROWS
-   ─────────────────────────────────────────── */
-.tx-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.tx-row:hover {
-  background: var(--bg-nested);
-}
-
-.tx-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  flex-shrink: 0;
-  transition: transform var(--transition-fast);
-}
-
-.tx-row:hover .tx-icon {
-  transform: scale(1.08);
-}
-
-/* ───────────────────────────────────────────
-   🏦 ACCOUNT ROWS
-   ─────────────────────────────────────────── */
-.account-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  background: var(--bg-nested);
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.account-row:hover {
-  background: var(--bg-nested-hover);
-}
-
-/* ───────────────────────────────────────────
-   ➕ ADD BUTTON (small circle)
-   ─────────────────────────────────────────── */
-.add-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-full);
-  background: var(--bg-nested);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.add-btn:hover {
-  background: var(--bg-nested-hover);
-  color: var(--text-primary);
-}
-
-/* ───────────────────────────────────────────
-   🟦 FAB (Floating Action Button)
-   ─────────────────────────────────────────── */
-.fab-button {
-  position: fixed;
-  bottom: 2.5rem;
-  right: 2.5rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: var(--radius-full);
-  background: var(--brand-primary);
-  color: white;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 24px rgba(0, 113, 227, 0.3);
-  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.fab-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 32px rgba(0, 113, 227, 0.4);
-}
-
-.fab-button:active {
-  transform: scale(0.95);
+/* Phone Mockup Donut Chart */
+.donut-chart {
+  background: conic-gradient(var(--expense) 0% 15%,
+      var(--brand-accent) 15% 65%,
+      #5a8fd4 65% 90%,
+      var(--brand-gold) 90% 100%);
+  border-radius: 50%;
 }
