@@ -1,4 +1,5 @@
 import React from "react";
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -27,7 +28,24 @@ export default function Home() {
             </div>
           </div>
 
-          <button className="btn-dark hidden md:inline-flex">Obtener app</button>
+          <div className="flex items-center gap-4">
+            <SignedOut>
+              <div className="hidden md:flex items-center gap-3">
+                <SignInButton mode="modal">
+                  <button className="text-sm font-semibold text-[var(--text-primary)] hover:opacity-70 transition-opacity">Iniciar sesión</button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="btn-dark hidden md:inline-flex">Crear cuenta</button>
+                </SignUpButton>
+              </div>
+            </SignedOut>
+            <SignedIn>
+              <div className="flex items-center gap-4">
+                <a href="/dashboard" className="text-sm font-semibold text-[var(--text-primary)] hover:opacity-70 transition-opacity hidden sm:block">Ir al Dashboard</a>
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+          </div>
         </div>
       </nav>
 
