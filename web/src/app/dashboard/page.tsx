@@ -1,15 +1,12 @@
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { UserButton } from "@clerk/nextjs";
+import { getCurrentUser } from '@/lib/prisma';
 
 export default async function DashboardPage() {
-    // Verificamos en el servidor si el usuario está autenticado
-    const { userId } = await auth();
+    // Ahora llamamos a nuestro propio helper que a su vez llama a Clerk y nuestra Base de Datos
+    const dbUser = await getCurrentUser();
 
-    // Si no hay sesión (alguien intentó entrar por la URL directa), 
-    // Clerk automáticamente redirigirá al login gracias el proxy.ts, pero 
-    // por seguridad y buenas prácticas validamos el server-side auth.
-    if (!userId) {
+    if (!dbUser) {
         redirect('/');
     }
 
@@ -28,7 +25,7 @@ export default async function DashboardPage() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <span className="text-sm font-medium text-[var(--text-secondary)] hidden sm:inline-block">Sesión activa ({userId.slice(-5)})</span>
+                        <span className="text-sm font-medium text-[var(--text-secondary)] hidden sm:inline-block">Hola, {dbUser.name.split(' ')[0]}</span>
                         <UserButton afterSignOutUrl="/" />
                     </div>
                 </div>
@@ -38,21 +35,21 @@ export default async function DashboardPage() {
                 <h1 className="text-3xl font-bold mb-8">🛠️ Dashboard en Construcción</h1>
 
                 <p className="text-[var(--text-secondary)] mb-6 text-lg max-w-2xl">
-                    ¡Felicidades! Lograste entrar a una ruta protegida. Aquí implementaremos el verdadero dashboard con tus datos de SQLite/Prisma muy pronto.
+                    ¡Felicidades! Lograste sincronizar tu cuenta con la Base de Datos. Estás registrado permanentemente bajo el UUID único: <code className="bg-black/5 px-2 py-1 rounded-md text-[13px]">{dbUser.id.slice(0, 15)}...</code>.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-black/5">
                         <h3 className="font-semibold text-xl mb-2 text-[var(--text-primary)]">Ingresos</h3>
-                        <p className="text-[var(--income)] text-2xl font-bold">$0.00</p>
+                        <p className="text-[var(--income)] text-2xl font-bold">{dbUser.currency} $0.00</p>
                     </div>
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-black/5">
                         <h3 className="font-semibold text-xl mb-2 text-[var(--text-primary)]">Gastos</h3>
-                        <p className="text-[var(--expense)] text-2xl font-bold">$0.00</p>
+                        <p className="text-[var(--expense)] text-2xl font-bold">{dbUser.currency} $0.00</p>
                     </div>
                     <div className="bg-white p-6 rounded-2xl shadow-sm border border-black/5">
                         <h3 className="font-semibold text-xl mb-2 text-[var(--text-primary)]">Balance</h3>
-                        <p className="text-[var(--brand-accent)] text-2xl font-bold">$0.00</p>
+                        <p className="text-[var(--brand-accent)] text-2xl font-bold">{dbUser.currency} $0.00</p>
                     </div>
                 </div>
             </main>
