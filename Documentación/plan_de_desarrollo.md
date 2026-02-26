@@ -31,7 +31,7 @@
 | :--- | :--- |
 | 1.1 | ✅ Inicializar proyecto Next.js 15 con TypeScript y Tailwind CSS |
 | 1.2 | ✅ Configurar ESLint + Prettier |
-| 1.3 | ✅ Configurar PostgreSQL local + Prisma ORM |
+| 1.3 | ✅ Configurar SQLite local + Prisma ORM |
 | 1.4 | ✅ Definir esquema de base de datos inicial (usuarios, transacciones, categorías, cuentas) |
 | 1.5 | ✅ Configurar repositorio Git + GitHub con branching strategy |
 | 1.6 | ✅ Configurar Vercel para deploy automático |
@@ -45,10 +45,10 @@
 | Tarea | Detalle |
 | :--- | :--- |
 | 2.1 | ✅ Implementar autenticación con Clerk (Google, Email, Apple) |
-| 2.2 | Diseñar y migrar esquema completo de Prisma:<br>→ User, Account (cuentas bancarias/efectivo)<br>→ Transaction (ingresos/gastos)<br>→ Category (categorías personalizables)<br>→ Budget (presupuestos por categoría) |
-| 2.3 | Crear API routes con tRPC para CRUD de transacciones |
+| 2.2 | ✅ Diseñar y migrar esquema completo de Prisma:<br>→ User, Account (cuentas bancarias/efectivo)<br>→ Transaction (ingresos/gastos)<br>→ Category (categorías personalizables)<br>→ Budget (presupuestos por categoría) |
+| 2.3 | ✅ Crear API routes con tRPC para CRUD de transacciones |
 | 2.4 | ✅ Implementar middleware de protección de rutas |
-| 2.5 | Crear páginas de login/registro con diseño premium |
+| 2.5 | ✅ Crear páginas de login/registro con diseño premium |
 
 **Entregable:** Usuarios pueden registrarse, loguearse y su sesión persiste.
 
