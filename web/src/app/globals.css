@@ -1,49 +1,49 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   🎨 DESIGN SYSTEM — monefy
-   Inspirado en Monefy (Tonos verdes, mint y negro)
+   🎨 DESIGN SYSTEM — todaLaPlata
+   Paleta Retro Americana: Beige, Steel Blue, Orange, Dark
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
   /* Backgrounds */
-  --bg-page: #DAF1DE;
-  /* Fondo Mint (El más claro) */
-  --bg-dark: #051F20;
-  /* Verde casi negro (El más oscuro) */
+  --bg-page: #f5f0eb;
+  --bg-dark: #1a1a1a;
   --bg-card: #ffffff;
-  --bg-nested: #e8f4ec;
+  --bg-nested: #ede6de;
 
   /* Text */
-  --text-primary: #051F20;
-  /* Verde oscuro principal */
-  --text-secondary: #0B2B26;
-  --text-tertiary: #163832;
-  --text-light: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #3d3d3d;
+  --text-tertiary: #6b6b6b;
+  --text-light: #f5f0eb;
+  --text-muted: #9a9a9a;
 
   /* Brand */
-  --brand-primary: #051F20;
-  --brand-accent: #8EB69B;
-  /* Verde menta acento */
+  --brand-primary: #1a1a1a;
+  --brand-accent: #f3701e;
+  --brand-secondary: #4b607f;
+  --brand-cream: #e8d8c9;
   --brand-gold: #e2ba65;
-  /* Dorado monedas */
 
   /* Semantic */
-  --income: #8EB69B;
-  --expense: #d46b6b;
+  --income: #4b607f;
+  --expense: #c95d45;
   --warning: #e2ba65;
+  --success: #5a8a6a;
 
   /* Radius */
+  --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-2xl: 32px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 4px 6px rgba(12, 62, 46, 0.05);
-  --shadow-md: 0 10px 25px rgba(12, 62, 46, 0.1);
-  --shadow-lg: 0 20px 40px rgba(12, 62, 46, 0.15);
+  /* Shadows (warm tone) */
+  --shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.04);
+  --shadow-md: 0 8px 24px rgba(26, 26, 26, 0.08);
+  --shadow-lg: 0 16px 40px rgba(26, 26, 26, 0.12);
 
   --transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
@@ -66,10 +66,6 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
-  /* Topographic pattern simulation con gradientes radiales para dar textura */
-  background-image:
-    radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
 .container-app {
@@ -83,8 +79,8 @@ body {
    🔘 BOTONES
    ─────────────────────────────────────────── */
 .btn-dark {
-  background-color: #051F20;
-  color: white;
+  background-color: #1a1a1a;
+  color: #f5f0eb;
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -98,13 +94,14 @@ body {
 }
 
 .btn-dark:hover {
-  background-color: #0B2B26;
+  background-color: #f3701e;
+  color: white;
   transform: translateY(-2px);
 }
 
 .btn-accent {
   background-color: var(--brand-accent);
-  color: var(--text-primary);
+  color: white;
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -113,27 +110,28 @@ body {
 }
 
 .btn-accent:hover {
-  background-color: #235347;
+  background-color: #d55f15;
   color: white;
   transform: translateY(-2px);
 }
 
 /* App Store Buttons */
 .store-btn {
-  background-color: #051F20;
+  background-color: #1a1a1a;
   border-radius: 12px;
   padding: 0.5rem 1.2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: white;
+  color: #f5f0eb;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .store-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(5, 31, 32, 0.4);
+  box-shadow: 0 10px 20px rgba(26, 26, 26, 0.3);
+  background-color: #f3701e;
 }
 
 /* ───────────────────────────────────────────
@@ -212,8 +210,8 @@ body {
 /* Phone Mockup Donut Chart */
 .donut-chart {
   background: conic-gradient(var(--expense) 0% 15%,
-      var(--brand-accent) 15% 65%,
-      #5a8fd4 65% 90%,
+      var(--brand-secondary) 15% 65%,
+      var(--brand-accent) 65% 90%,
       var(--brand-gold) 90% 100%);
   border-radius: 50%;
 }

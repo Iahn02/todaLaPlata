@@ -36,8 +36,8 @@ const resolveDictType = (type: string) => {
 
 // Colores Premium Controlados
 const ACC_COLORS = [
-    "#000000", "#3b82f6", "#6366f1", "#8b5cf6",
-    "#ec4899", "#f43f5e", "#f97316", "#10b981",
+    "#1a1a1a", "#4b607f", "#f3701e", "#c95d45",
+    "#e2ba65", "#5a8a6a", "#8b5cf6", "#3b82f6",
     "#14b8a6", "#64748b", "#0f172a"
 ];
 
@@ -62,12 +62,12 @@ export default function AccountsPage() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-5xl mx-auto">
             <header className="mb-8 hidden md:flex items-end justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">Billeteras & Cuentas</h1>
-                    <p className="text-slate-500 mt-1">Administra tus métodos de pago y cuentas bancarias.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Billeteras & Cuentas</h1>
+                    <p className="text-[#6b6b6b] mt-1">Administra tus métodos de pago y cuentas bancarias.</p>
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
                 >
                     <Plus className="w-5 h-5" /> Añadir Cuenta
                 </button>
@@ -76,19 +76,19 @@ export default function AccountsPage() {
             {/* Fab button mobile */}
             <button
                 onClick={() => setIsCreating(true)}
-                className="md:hidden fixed bottom-24 left-6 z-40 w-14 h-14 bg-slate-900 text-white rounded-full shadow-xl hover:shadow-slate-900/20 flex items-center justify-center transition-all active:scale-90"
+                className="md:hidden fixed bottom-24 left-6 z-40 w-14 h-14 bg-[#1a1a1a] text-white rounded-full shadow-xl hover:shadow-[#1a1a1a]/20 flex items-center justify-center transition-all active:scale-90"
             >
                 <Plus className="w-6 h-6" />
             </button>
 
             {/* Resumen Total */}
-            <div className="bg-indigo-600 rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl shadow-indigo-600/20">
-                <div className="absolute right-0 bottom-0 w-64 h-64 bg-white/5 rounded-tl-full pointer-events-none" />
-                <div className="absolute left-10 -top-10 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="bg-[#1a1a1a] rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl shadow-[#1a1a1a]/20">
+                <div className="absolute right-0 bottom-0 w-64 h-64 bg-[#f3701e]/10 rounded-tl-full pointer-events-none" />
+                <div className="absolute left-10 -top-10 w-32 h-32 bg-[#4b607f]/20 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                        <p className="font-medium text-indigo-100 flex items-center gap-2 mb-2">
+                        <p className="font-medium text-[#f5f0eb]/70 flex items-center gap-2 mb-2">
                             <Wallet className="w-5 h-5 opacity-80" /> Patrimonio Total (Cuentas activas)
                         </p>
                         {isLoading ? (
@@ -121,7 +121,7 @@ export default function AccountsPage() {
                 </AnimatePresence>
 
                 {isLoading && !accounts ? Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="bg-slate-100 h-48 rounded-3xl animate-pulse" />
+                    <div key={i} className="bg-[#e8d8c9]/50 h-48 rounded-3xl animate-pulse" />
                 )) : (
                     accounts.map((acc) => (
                         <motion.div
@@ -262,13 +262,13 @@ function AccountEditorForm({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col gap-6 relative z-20">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-3xl shadow-xl shadow-[#1a1a1a]/5 border border-[#e8d8c9]/60 flex flex-col gap-6 relative z-20">
+            <div className="flex items-center justify-between border-b border-[#e8d8c9] pb-4">
                 <div>
-                    <h3 className="font-bold text-xl text-slate-900">{account ? "Editar Cuenta" : "Nueva Cuenta"}</h3>
-                    <p className="text-sm text-slate-500 font-medium mt-0.5">Configura tu billetera para transacciones.</p>
+                    <h3 className="font-bold text-xl text-[#1a1a1a]">{account ? "Editar Cuenta" : "Nueva Cuenta"}</h3>
+                    <p className="text-sm text-[#6b6b6b] font-medium mt-0.5">Configura tu billetera para transacciones.</p>
                 </div>
-                <button type="button" onClick={onCancel} className="p-2 text-slate-400 hover:bg-slate-100 rounded-full transition-colors">
+                <button type="button" onClick={onCancel} className="p-2 text-[#9a9a9a] hover:bg-[#f5f0eb] rounded-full transition-colors">
                     <X className="w-5 h-5" />
                 </button>
             </div>
@@ -276,25 +276,25 @@ function AccountEditorForm({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Nombre */}
                 <div className="lg:col-span-2">
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nombre de la cuenta</label>
+                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Nombre de la cuenta</label>
                     <input
                         type="text"
                         required
                         placeholder="Ej: Banco Estado, Billetera Física..."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="block w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
+                        className="block w-full px-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-medium focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                     />
                 </div>
 
                 {/* Tipo */}
                 <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tipo de Institución</label>
+                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Tipo de Institución</label>
                     <div className="relative">
                         <select
                             value={type}
                             onChange={(e) => setType(e.target.value as AccountType)}
-                            className="block w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium appearance-none focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
+                            className="block w-full px-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-medium appearance-none focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                         >
                             <option value="bank">Banco Local / Internacional</option>
                             <option value="credit_card">Tarjeta de Crédito</option>
@@ -302,31 +302,30 @@ function AccountEditorForm({
                             <option value="investment">Inversiones (Stocks/Crypto)</option>
                             <option value="cash">Efectivo Físico</option>
                         </select>
-                        <Settings2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                        <Settings2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9a9a9a] pointer-events-none" />
                     </div>
                 </div>
 
                 {/* Saldo Inicial */}
                 <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Saldo Inicial (Base)</label>
+                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Saldo Inicial (Base)</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[#9a9a9a]">$</span>
                         <input
                             type="number"
                             required
                             value={balance}
                             onChange={(e) => setBalance(parseFloat(e.target.value) || 0)}
-                            className="block w-full pl-9 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none"
+                            className="block w-full pl-9 pr-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-bold focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                         />
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1.5 font-medium leading-tight">Monto antes de las transacciones.</p>
+                    <p className="text-[10px] text-[#9a9a9a] mt-1.5 font-medium leading-tight">Monto antes de las transacciones.</p>
                 </div>
             </div>
 
             {/* Opciones Especiales */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-2 border-t border-slate-100 mt-2">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-2 border-t border-[#e8d8c9] mt-2">
 
-                {/* Selector de Color y Toggle de Total */}
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
                     {/* Colors */}
                     <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-2">
@@ -335,7 +334,7 @@ function AccountEditorForm({
                                 key={c}
                                 type="button"
                                 onClick={() => setColor(c)}
-                                className={`w-7 h-7 rounded-full flex-shrink-0 transition-transform shadow-sm ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-indigo-500' : 'hover:scale-110'}`}
+                                className={`w-7 h-7 rounded-full flex-shrink-0 transition-transform shadow-sm ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-[#f3701e]' : 'hover:scale-110'}`}
                                 style={{ backgroundColor: c }}
                             />
                         ))}
@@ -350,9 +349,9 @@ function AccountEditorForm({
                                 onChange={(e) => setIncludeInTotal(e.target.checked)}
                                 className="sr-only peer"
                             />
-                            <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <div className="w-11 h-6 bg-[#e8d8c9] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#e8d8c9] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#f3701e]"></div>
                         </div>
-                        <span className="text-sm font-semibold text-slate-600 group-hover:text-slate-900 transition-colors">Sumar al Patrimonio Total</span>
+                        <span className="text-sm font-semibold text-[#6b6b6b] group-hover:text-[#1a1a1a] transition-colors">Sumar al Patrimonio Total</span>
                     </label>
                 </div>
 
@@ -361,14 +360,14 @@ function AccountEditorForm({
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-6 py-3 font-semibold text-slate-500 hover:bg-slate-100 rounded-xl transition-all"
+                        className="px-6 py-3 font-semibold text-[#6b6b6b] hover:bg-[#f5f0eb] rounded-xl transition-all"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
                         disabled={isPending || !name.trim()}
-                        className="flex items-center gap-2 px-8 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-500 transition-all disabled:opacity-50 active:scale-95 shadow-lg shadow-indigo-600/30"
+                        className="flex items-center gap-2 px-8 py-3 bg-[#f3701e] text-white font-semibold rounded-xl hover:bg-[#d55f15] transition-all disabled:opacity-50 active:scale-95 shadow-lg shadow-[#f3701e]/30"
                     >
                         {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                         {account ? "Guardar" : "Crear"}

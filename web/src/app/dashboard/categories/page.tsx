@@ -14,10 +14,10 @@ const resolveIcon = (iconName: string) => {
     return IconComponent || LucideIcons.Tag;
 };
 
-// Una UI premium requiere definir una paleta controlada para que el usuario no ponga negro sobre negro.
+// Paleta controlada de colores para categorías
 const PREDEFINED_COLORS = [
-    "#f43f5e", "#ef4444", "#f97316", "#f59e0b",
-    "#84cc16", "#10b981", "#14b8a6", "#06b6d4",
+    "#c95d45", "#f3701e", "#e2ba65", "#f59e0b",
+    "#5a8a6a", "#10b981", "#14b8a6", "#4b607f",
     "#3b82f6", "#6366f1", "#8b5cf6", "#d946ef",
 ];
 
@@ -42,32 +42,32 @@ export default function CategoriesPage() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-4xl mx-auto">
             <header className="mb-8 hidden md:flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Tus Categorías</h1>
-                    <p className="text-slate-500 mt-1">Agrupa tus movimientos y organiza tu dinero.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Tus Categorías</h1>
+                    <p className="text-[#6b6b6b] mt-1">Agrupa tus movimientos y organiza tu dinero.</p>
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
                 >
                     <Plus className="w-5 h-5" /> Nueva Categoría
                 </button>
             </header>
 
-            {/* Botón Flotante para Móviles (exclusivo) */}
+            {/* Botón Flotante para Móviles */}
             <button
                 onClick={() => setIsCreating(true)}
-                className="md:hidden fixed bottom-24 right-6 z-40 w-14 h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-full shadow-xl hover:shadow-slate-900/20 flex items-center justify-center transition-all active:scale-90"
+                className="md:hidden fixed bottom-24 right-6 z-40 w-14 h-14 bg-[#1a1a1a] hover:bg-[#f3701e] text-white rounded-full shadow-xl hover:shadow-[#f3701e]/20 flex items-center justify-center transition-all active:scale-90"
             >
                 <Plus className="w-6 h-6" />
             </button>
 
             {/* Selector de Tipo (Income / Expense) */}
-            <div className="flex bg-slate-100 p-1.5 rounded-2xl mb-8 max-w-sm">
+            <div className="flex bg-[#f5f0eb] p-1.5 rounded-2xl mb-8 max-w-sm">
                 <button
                     onClick={() => setFilterType("expense")}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${filterType === "expense"
-                        ? "bg-white text-rose-600 shadow-sm"
-                        : "text-slate-500 hover:text-slate-700"
+                        ? "bg-white text-[#c95d45] shadow-sm"
+                        : "text-[#6b6b6b] hover:text-[#1a1a1a]"
                         }`}
                 >
                     <ArrowDownCircle className="w-4 h-4" /> Gastos
@@ -75,8 +75,8 @@ export default function CategoriesPage() {
                 <button
                     onClick={() => setFilterType("income")}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${filterType === "income"
-                        ? "bg-white text-emerald-600 shadow-sm"
-                        : "text-slate-500 hover:text-slate-700"
+                        ? "bg-white text-[#4b607f] shadow-sm"
+                        : "text-[#6b6b6b] hover:text-[#1a1a1a]"
                         }`}
                 >
                     <ArrowUpCircle className="w-4 h-4" /> Ingresos
@@ -101,7 +101,7 @@ export default function CategoriesPage() {
                     )}
 
                     {isLoading && !categories ? Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className="bg-slate-100 h-24 rounded-2xl animate-pulse" />
+                        <div key={i} className="bg-[#e8d8c9]/50 h-24 rounded-2xl animate-pulse" />
                     )) : (
                         filteredCategories.map((cat: Category) => (
                             <motion.div
@@ -126,9 +126,9 @@ export default function CategoriesPage() {
                     )}
 
                     {!isLoading && filteredCategories.length === 0 && !isCreating && (
-                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
-                            <LucideIcons.Tags className="w-12 h-12 mb-4 text-slate-300" />
-                            <p className="font-medium text-lg text-slate-500">No hay categorías de este tipo.</p>
+                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-[#9a9a9a] border-2 border-dashed border-[#e8d8c9] rounded-3xl bg-[#f5f0eb]">
+                            <LucideIcons.Tags className="w-12 h-12 mb-4 text-[#e8d8c9]" />
+                            <p className="font-medium text-lg text-[#6b6b6b]">No hay categorías de este tipo.</p>
                             <p className="text-sm mt-1">Toca en Nueva Categoría para crear una.</p>
                         </div>
                     )}
@@ -148,7 +148,7 @@ function CategoryCard({ category, onEdit }: { category: Category, onEdit: () => 
     });
 
     return (
-        <div className="group bg-white p-5 rounded-3xl shadow-sm hover:shadow-md border border-slate-100 transition-all duration-300 flex items-center justify-between overflow-hidden relative">
+        <div className="group bg-white p-5 rounded-3xl shadow-sm hover:shadow-md border border-[#e8d8c9]/60 transition-all duration-300 flex items-center justify-between overflow-hidden relative">
             <div className="absolute top-0 right-0 w-24 h-24 opacity-10 rounded-bl-[100px] pointer-events-none transition-transform group-hover:scale-125 duration-500" style={{ backgroundColor: category.color }} />
 
             <div className="flex items-center gap-4 z-10">
@@ -160,21 +160,21 @@ function CategoryCard({ category, onEdit }: { category: Category, onEdit: () => 
                     <Icon className="w-6 h-6 z-10" />
                 </div>
                 <div>
-                    <h3 className="font-bold text-[17px] text-slate-800 truncate max-w-[130px]" title={category.name}>{category.name}</h3>
+                    <h3 className="font-bold text-[17px] text-[#1a1a1a] truncate max-w-[130px]" title={category.name}>{category.name}</h3>
                 </div>
             </div>
 
             <div className="flex items-center gap-1 z-10 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                     onClick={onEdit}
-                    className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-2 text-[#9a9a9a] hover:text-[#f3701e] hover:bg-[#f5f0eb] rounded-lg transition-colors"
                 >
                     <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                     onClick={() => { if (confirm("¿Seguro que deseas eliminar esta categoría? Cualquier transacción vinculada perderá su categoría.")) deleteMut.mutate({ id: category.id }) }}
                     disabled={deleteMut.isPending}
-                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                    className="p-2 text-[#9a9a9a] hover:text-[#c95d45] hover:bg-[#c95d45]/10 rounded-lg transition-colors"
                 >
                     {deleteMut.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 </button>
@@ -219,7 +219,7 @@ function CategoryEditorForm({
     const SelectedIcon = resolveIcon(icon);
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-5 rounded-3xl shadow-lg border border-indigo-100 ring-2 ring-indigo-50 flex flex-col gap-4 relative z-20">
+        <form onSubmit={handleSubmit} className="bg-white p-5 rounded-3xl shadow-lg border border-[#e8d8c9] ring-2 ring-[#f3701e]/10 flex flex-col gap-4 relative z-20">
 
             {/* HEADER: Name Input and Header Actions */}
             <div className="flex items-start gap-4">
@@ -239,7 +239,7 @@ function CategoryEditorForm({
                         placeholder="Ej: Alimentación..."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full text-lg font-bold text-slate-900 placeholder:text-slate-300 border-b-2 border-transparent focus:border-indigo-500 bg-transparent py-1 transition-all outline-none"
+                        className="w-full text-lg font-bold text-[#1a1a1a] placeholder:text-[#e8d8c9] border-b-2 border-transparent focus:border-[#f3701e] bg-transparent py-1 transition-all outline-none"
                     />
                 </div>
             </div>
@@ -252,7 +252,7 @@ function CategoryEditorForm({
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl mt-2 grid grid-cols-6 gap-2">
+                        <div className="p-3 bg-[#f5f0eb] border border-[#e8d8c9] rounded-2xl mt-2 grid grid-cols-6 gap-2">
                             {PREDEFINED_ICONS.map(iName => {
                                 const Icn = resolveIcon(iName);
                                 return (
@@ -260,7 +260,7 @@ function CategoryEditorForm({
                                         key={iName}
                                         type="button"
                                         onClick={() => { setIcon(iName); setShowIcons(false); }}
-                                        className={`aspect-square flex items-center justify-center rounded-xl transition-all ${icon === iName ? 'bg-indigo-100 text-indigo-600' : 'text-slate-400 hover:bg-slate-200/50 hover:text-slate-600'}`}
+                                        className={`aspect-square flex items-center justify-center rounded-xl transition-all ${icon === iName ? 'bg-[#f3701e]/10 text-[#f3701e]' : 'text-[#9a9a9a] hover:bg-[#e8d8c9]/50 hover:text-[#1a1a1a]'}`}
                                     >
                                         <Icn className="w-5 h-5" />
                                     </button>
@@ -272,14 +272,14 @@ function CategoryEditorForm({
             </AnimatePresence>
 
             {/* FOOTER: Colors & Actions */}
-            <div className="flex items-center justify-between mt-2 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-between mt-2 pt-4 border-t border-[#e8d8c9]">
                 <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 pr-4">
                     {PREDEFINED_COLORS.map(c => (
                         <button
                             key={c}
                             type="button"
                             onClick={() => setColor(c)}
-                            className={`w-6 h-6 rounded-full flex-shrink-0 transition-transform ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-slate-400' : 'hover:scale-110'}`}
+                            className={`w-6 h-6 rounded-full flex-shrink-0 transition-transform ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-[#1a1a1a]' : 'hover:scale-110'}`}
                             style={{ backgroundColor: c }}
                         />
                     ))}
@@ -289,14 +289,14 @@ function CategoryEditorForm({
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="p-2 text-slate-400 hover:bg-slate-100 rounded-xl transition-colors"
+                        className="p-2 text-[#9a9a9a] hover:bg-[#f5f0eb] rounded-xl transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
                     <button
                         type="submit"
                         disabled={isPending || !name.trim()}
-                        className="p-2 bg-indigo-600 text-white hover:bg-indigo-500 rounded-xl transition-all disabled:opacity-50 disabled:scale-100 active:scale-95 shadow-lg shadow-indigo-600/30"
+                        className="p-2 bg-[#f3701e] text-white hover:bg-[#d55f15] rounded-xl transition-all disabled:opacity-50 disabled:scale-100 active:scale-95 shadow-lg shadow-[#f3701e]/30"
                     >
                         {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                     </button>

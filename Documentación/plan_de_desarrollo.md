@@ -62,7 +62,7 @@
 | 3.3 | ✅ Lista de transacciones con filtros (fecha, categoría, tipo, monto) |
 | 3.4 | ✅ Gestión de categorías — crear, editar, eliminar categorías con iconos |
 | 3.5 | ✅ Múltiples cuentas — banco, efectivo, tarjeta de crédito |
-| 3.6 | Transferencias entre cuentas |
+| 3.6 | ✅ Transferencias entre cuentas |
 | 3.7 | Gráficos interactivos con Recharts (gastos por categoría, tendencia mensual) |
 | 3.8 | Presupuestos — definir límite por categoría y ver progreso |
 

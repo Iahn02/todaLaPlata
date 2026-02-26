@@ -10,6 +10,7 @@ El proyecto contempla una estructura web inicial y potencialmente escalará a un
 - **Librería de UI:** React 19.2.3
 - **Lenguaje:** TypeScript 5
 - **Estilos:** Tailwind CSS v4, PostCSS
+- **Tipografía:** DM Sans (principal), DM Mono (código/monospace) — via `next/font/google`
 - **Base de Datos / ORM:** Prisma 7.4.1 conectado a Better SQLite3 (local)
 - **Autenticación:** Clerk (`@clerk/nextjs` 6.38)
 - **Calidad de Código:** ESLint v9, Prettier 3.8.1
@@ -24,31 +25,65 @@ El proyecto contempla una estructura web inicial y potencialmente escalará a un
   - Componentes Reutilizables: `web/src/components/`
   - Utilidades, Helpers, y Configs: `web/src/lib/` (ej: `prisma.ts`)
 
-### 2. Eosistema Next.js & React
+### 2. Ecosistema Next.js & React
 - **App Router:** Utiliza exclusivamente el App Router (directorio `app`). Nunca uses el obsoleto directorio `pages`.
 - **RSC vs Client Components:** Maximiza el uso de React Server Components (RSC) para cargas de datos, componentes estáticos y SEO. Utiliza la directiva `"use client"` **exclusivamente** en los extremos del árbol de componentes donde la interactividad (hooks de estado, eventos DOM) sea estrictamente necesaria.
 - **Acceso a Datos:** Promueve el uso de Server Actions y Route Handlers (`app/api/...`) en Next.js.
 - Aprovecha las nuevas capacidades de **React 19** y componentes nativos de Next.js (Image, Font, Link, etc.).
 
-### 3. Diseño y Estilos (Tailwind CSS 4)
+### 3. Identidad Visual y Paleta de Colores
+La aplicación utiliza una paleta de estilo **retro americano vintage** con un diseño **minimalista, limpio, responsive y bonito**. NUNCA cambies estos colores sin autorización explícita.
+
+#### Paleta de Colores Principal
+| Rol | Color | Hex |
+|-----|-------|-----|
+| Fondo claro (page background) | Crema muy claro | `#f5f0eb` |
+| Fondo cards/content | Blanco | `#ffffff` |
+| Fondo nested/inputs | Beige cálido | `#e8d8c9` |
+| Fondo oscuro (sidebar, dark UI) | Negro cálido | `#1a1a1a` |
+| Acento principal (CTAs, FABs, links activos) | Naranja retro | `#f3701e` |
+| Acento secundario (income, badges) | Azul acero | `#4b607f` |
+| Texto principal | Negro cálido | `#1a1a1a` |
+| Texto secundario | Gris medio | `#3d3d3d` |
+| Texto terciario/muted | Gris | `#6b6b6b` / `#9a9a9a` |
+| Texto sobre fondo oscuro | Crema claro | `#f5f0eb` |
+| Semántico: gastos | Rojo cálido | `#c95d45` |
+| Semántico: ingresos | Azul acero | `#4b607f` |
+| Semántico: warning/gold | Dorado | `#e2ba65` |
+| Semántico: success | Verde apagado | `#5a8a6a` |
+
+#### Reglas de Diseño
+- **Tipografía:** DM Sans para texto, DM Mono para monospace. Variable CSS: `--font-sans`, `--font-mono`.
+- **Minimalismo:** Fondos limpios sin texturas ni patrones. Espaciado generoso. Elementos respiran.
+- **Bordes sutiles:** Usar `border-[#e8d8c9]/60` para cards en fondo claro. Evitar bordes gruesos o stark.
+- **Inputs:** Background `#f5f0eb`, border `#e8d8c9`, focus ring `#f3701e/10`, focus border `#f3701e`.
+- **Botones primarios:** `bg-[#1a1a1a]` con hover `bg-[#f3701e]` (dark-to-orange transition).
+- **Botones accent:** `bg-[#f3701e]` directo para acciones destacadas (FABs, submit, save).
+- **Sidebar:** Fondo `#1a1a1a`, texto `#f5f0eb`, ítem activo `bg-[#f3701e]/15 text-[#f3701e]`.
+- **Mobile nav:** Glassmorphism oscuro (`bg-[#1a1a1a]/90 backdrop-blur-xl border-white/10`).
+- **Border radius:** Consistente (`rounded-xl` para inputs, `rounded-2xl` para cards pequeñas, `rounded-3xl` para secciones).
+- **Sombras:** Tonalidad cálida basada en `rgba(26,26,26,x)`. Sutiles, no dramáticas.
+- **Hover/Focus:** Transiciones suaves (`transition-all duration-300`). Micro-animaciones (`hover:-translate-y-1`).
+- **Responsive:** Mobile-first siempre. El diseño debe lucir premium en ambos breakpoints.
+
+### 4. Estilos (Tailwind CSS 4)
 - **Tailwind v4 Exclusivo:** Usa Tailwind v4 para todo el styling de componentes. Minimiza la escritura de CSS crudo; usa clases utilitarias.
-- **Diseño Premium:** Las interfaces deben destacar visualmente. Utiliza espaciados (whitespace) armónicos, tipografías modernas (ej. Inter flexibilizado), colores bien escogidos de paletas premium, gradients sutiles, esquineras redondeadas consistentes (border-radius), y **micro-animaciones** e interacciones complejas.
 - **Mobile-First:** Las aplicaciones deben diseñarse de manera responsable desde la base.
 
-### 4. Base de Datos (Prisma)
+### 5. Base de Datos (Prisma)
 - **Interacciones seguras:** Todas las consultas a DB deben pasar por el cliente de Prisma tipado desde `web/src/lib/prisma.ts`.
 - Mantén el esquema centralizado (`schema.prisma`) bien estructurado y documentado, respetando las relaciones y constricciones.
 - **Conectividad:** Por el momento el ecosistema utiliza `better-sqlite3`. Cualquier sugerencia dependiente de la base de datos debe contemplar compatibilidad con SQLite (y futuras transiciones hacia PostgreSQL).
 
-### 5. Autenticación y Seguridad
+### 6. Autenticación y Seguridad
 - Apóyate enteramente en **Clerk** para el registro, inicio de sesión y protección de rutas.
 - Utiliza middleware en Next.js para salvaguardar rutas privadas antes de que renderice la página.
 
-### 6. Protocolos para la AI y Generación de Código
+### 7. Protocolos para la AI y Generación de Código
 - Al proporcionar soluciones, aplica pequeños cambios incrementales. Sugiere reemplazar funciones enteras o proporcionar parches en vez de arrojar bloques masivos y destructivos, especialmente en archivos largos.
 - Asegúrate de respetar la indentación del proyecto (formateo de Prettier) e incorpórate a los estándares de ESLint de la base sin crear conflictos de `linting`.
 - Antes de proponer bibliotecas terceras, verifica que no existan nativamente en React 19 / Next 16 o si influyen sustancialmente en el bundle client.
-- **Si el usuario te solicita crear pantallas o componentes:** Mantén en la mente el requerimiento de "Aesthetics": diseño "wow", de sensación moderna y viva.
+- **Si el usuario te solicita crear pantallas o componentes:** Respeta **estrictamente** la paleta de colores retro americana definida arriba. Todo nuevo componente debe usar los colores del design system, NUNCA usar indigo, purple, emerald, slate u otros colores genéricos de Tailwind.
 
 ## Pasos para Agregar Nuevas Funciones Relevantes a la Arquitectura
 1. **Modelos:** Inicia por actualizar el `schema.prisma` y correr `npx prisma db push` o migraciones si es necesario.

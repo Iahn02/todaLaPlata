@@ -44,6 +44,51 @@ export const transactionsRouter = router({
             });
         }),
 
+    // Transferir dinero entre cuentas (Crea un Gasto y un Ingreso atómicamente)
+    transfer: protectedProcedure
+        .input(
+            z.object({
+                amount: z.number().positive("El monto debe ser positivo"),
+                description: z.string().optional(),
+                date: z.date().optional(),
+                fromAccountId: z.string().min(1, "Selecciona cuenta de origen"),
+                toAccountId: z.string().min(1, "Selecciona cuenta de destino"),
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            if (input.fromAccountId === input.toAccountId) {
+                throw new Error("No puedes transferir a la misma cuenta.");
+            }
+
+            const desc = input.description || "Transferencia";
+
+            // Transacción atómica en DB
+            return ctx.prisma.$transaction([
+                // 1. Quitar dinero de la cuenta origen (Gasto)
+                ctx.prisma.transaction.create({
+                    data: {
+                        userId: ctx.user.id,
+                        amount: input.amount,
+                        type: "expense",
+                        description: `${desc} -> Destino`,
+                        accountId: input.fromAccountId,
+                        date: input.date ?? new Date(),
+                    },
+                }),
+                // 2. Agregar dinero a la cuenta destino (Ingreso)
+                ctx.prisma.transaction.create({
+                    data: {
+                        userId: ctx.user.id,
+                        amount: input.amount,
+                        type: "income",
+                        description: `Destino <- ${desc}`,
+                        accountId: input.toAccountId,
+                        date: input.date ?? new Date(),
+                    },
+                }),
+            ]);
+        }),
+
     // Actualizar una transacción existente
     update: protectedProcedure
         .input(
