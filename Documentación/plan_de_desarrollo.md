@@ -63,8 +63,8 @@
 | 3.4 | ✅ Gestión de categorías — crear, editar, eliminar categorías con iconos |
 | 3.5 | ✅ Múltiples cuentas — banco, efectivo, tarjeta de crédito |
 | 3.6 | ✅ Transferencias entre cuentas |
-| 3.7 | Gráficos interactivos con Recharts (gastos por categoría, tendencia mensual) |
-| 3.8 | Presupuestos — definir límite por categoría y ver progreso |
+| 3.7 | ✅ Gráficos interactivos con Recharts (gastos por categoría, tendencia mensual) |
+| 3.8 | ✅ Presupuestos — definir límite por categoría y ver progreso |
 
 **Entregable:** App web 100% funcional con todas las features core.
 

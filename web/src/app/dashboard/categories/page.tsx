@@ -5,7 +5,9 @@ import { trpc } from "@/trpc/client";
 import { Plus, Trash2, Edit2, Loader2, Save, X, ArrowUpCircle, ArrowDownCircle } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Category } from "@prisma/client";
+import { Category, Budget } from "@prisma/client";
+
+type CategoryWithBudgets = Category & { budgets?: Budget[] };
 
 // Mapeo seguro para transformar string "tag" a componente de lucide: <Tag />
 const resolveIcon = (iconName: string) => {
@@ -36,7 +38,11 @@ export default function CategoriesPage() {
     const [editingCatId, setEditingCatId] = useState<string | null>(null);
     const [isCreating, setIsCreating] = useState(false);
 
-    const filteredCategories = categories?.filter((c: Category) => c.type === filterType) || [];
+    const filteredCategories = categories?.filter((c: CategoryWithBudgets) => c.type === filterType) || [];
+
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount);
+    };
 
     return (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-4xl mx-auto">
@@ -103,7 +109,7 @@ export default function CategoriesPage() {
                     {isLoading && !categories ? Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="bg-[#e8d8c9]/50 h-24 rounded-2xl animate-pulse" />
                     )) : (
-                        filteredCategories.map((cat: Category) => (
+                        filteredCategories.map((cat: CategoryWithBudgets) => (
                             <motion.div
                                 layout
                                 key={cat.id}
@@ -119,7 +125,7 @@ export default function CategoriesPage() {
                                         onSuccess={() => { setEditingCatId(null); utils.categories.getAll.invalidate(); }}
                                     />
                                 ) : (
-                                    <CategoryCard category={cat} onEdit={() => setEditingCatId(cat.id)} />
+                                    <CategoryCard category={cat} formatCurrency={formatCurrency} onEdit={() => setEditingCatId(cat.id)} />
                                 )}
                             </motion.div>
                         ))
@@ -138,8 +144,10 @@ export default function CategoriesPage() {
     );
 }
 
-function CategoryCard({ category, onEdit }: { category: Category, onEdit: () => void }) {
+function CategoryCard({ category, formatCurrency, onEdit }: { category: CategoryWithBudgets, formatCurrency: (amount: number) => string, onEdit: () => void }) {
     const Icon = resolveIcon(category.icon);
+    const budget = category.budgets?.find((b: Budget) => b.period === "monthly");
+
     const deleteMut = trpc.categories.delete.useMutation({
         onSuccess: () => {
             const utils = trpc.useUtils();
@@ -148,23 +156,26 @@ function CategoryCard({ category, onEdit }: { category: Category, onEdit: () => 
     });
 
     return (
-        <div className="group bg-white p-5 rounded-3xl shadow-sm hover:shadow-md border border-[#e8d8c9]/60 transition-all duration-300 flex items-center justify-between overflow-hidden relative">
+        <div className="group bg-white p-5 flex-col md:flex-row rounded-3xl shadow-sm hover:shadow-md border border-[#e8d8c9]/60 transition-all duration-300 flex md:items-center justify-between overflow-hidden relative gap-3">
             <div className="absolute top-0 right-0 w-24 h-24 opacity-10 rounded-bl-[100px] pointer-events-none transition-transform group-hover:scale-125 duration-500" style={{ backgroundColor: category.color }} />
 
             <div className="flex items-center gap-4 z-10">
                 <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg relative overflow-hidden transition-transform group-hover:-translate-y-1"
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg relative overflow-hidden transition-transform group-hover:-translate-y-1 flex-shrink-0"
                     style={{ backgroundColor: category.color, boxShadow: `0 10px 15px -3px ${category.color}40` }}
                 >
                     <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
                     <Icon className="w-6 h-6 z-10" />
                 </div>
-                <div>
-                    <h3 className="font-bold text-[17px] text-[#1a1a1a] truncate max-w-[130px]" title={category.name}>{category.name}</h3>
+                <div className="flex flex-col">
+                    <h3 className="font-bold text-[17px] text-[#1a1a1a] truncate max-w-[150px]" title={category.name}>{category.name}</h3>
+                    {budget && budget.amount > 0 && (
+                        <p className="text-xs font-medium text-[#6b6b6b]">Ppto: {formatCurrency(budget.amount)}</p>
+                    )}
                 </div>
             </div>
 
-            <div className="flex items-center gap-1 z-10 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-1 z-10 self-end md:self-auto opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity mt-2 md:mt-0">
                 <button
                     onClick={onEdit}
                     className="p-2 text-[#9a9a9a] hover:text-[#f3701e] hover:bg-[#f5f0eb] rounded-lg transition-colors"
@@ -190,14 +201,17 @@ function CategoryEditorForm({
     onCancel,
     onSuccess
 }: {
-    category?: Category,
+    category?: CategoryWithBudgets,
     type?: "income" | "expense",
     onCancel: () => void,
     onSuccess: () => void
 }) {
+    const existingBudget = category?.budgets?.find((b: Budget) => b.period === "monthly");
+
     const [name, setName] = useState(category?.name || "");
     const [color, setColor] = useState(category?.color || PREDEFINED_COLORS[0]);
     const [icon, setIcon] = useState(category?.icon || PREDEFINED_ICONS[0]);
+    const [monthlyBudget, setMonthlyBudget] = useState(existingBudget?.amount?.toString() || "");
     const [showIcons, setShowIcons] = useState(false);
 
     const createMut = trpc.categories.create.useMutation({ onSuccess });
@@ -209,10 +223,12 @@ function CategoryEditorForm({
         e.preventDefault();
         if (!name.trim()) return;
 
+        const parsedBudget = monthlyBudget ? parseFloat(monthlyBudget) : 0;
+
         if (category) {
-            updateMut.mutate({ id: category.id, name, color, icon });
+            updateMut.mutate({ id: category.id, name, color, icon, monthlyBudget: parsedBudget });
         } else {
-            createMut.mutate({ name, color, icon, type: type! });
+            createMut.mutate({ name, color, icon, type: type!, monthlyBudget: parsedBudget });
         }
     };
 
@@ -241,6 +257,22 @@ function CategoryEditorForm({
                         onChange={(e) => setName(e.target.value)}
                         className="w-full text-lg font-bold text-[#1a1a1a] placeholder:text-[#e8d8c9] border-b-2 border-transparent focus:border-[#f3701e] bg-transparent py-1 transition-all outline-none"
                     />
+                    {(!category || category.type === "expense") && (type === "expense" || category?.type === "expense") && (
+                        <div className="mt-2 flex items-center gap-2">
+                            <span className="text-xs font-semibold text-[#6b6b6b]">Ppto. Mensual:</span>
+                            <div className="relative flex-1">
+                                <span className="absolute left-2 top-1.5 text-xs text-[#9a9a9a]">$</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    placeholder="Ilimitado"
+                                    value={monthlyBudget}
+                                    onChange={(e) => setMonthlyBudget(e.target.value)}
+                                    className="w-full text-sm text-[#1a1a1a] placeholder:text-[#e8d8c9] border border-[#e8d8c9]/60 rounded-lg bg-gray-50 py-1 pl-5 pr-2 transition-all outline-none focus:border-[#f3701e] focus:bg-white"
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
