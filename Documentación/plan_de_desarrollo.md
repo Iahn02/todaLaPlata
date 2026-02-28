@@ -73,7 +73,7 @@
 
 | Tarea | Detalle |
 | :--- | :--- |
-| 4.1 | Inicializar proyecto Expo (React Native) |
+| 4.1 | ✅ Inicializar proyecto Expo (React Native) |
 | 4.2 | Configurar navegación con Expo Router |
 | 4.3 | Conectar al mismo backend (API tRPC compartida) |
 | 4.4 | Implementar autenticación mobile con Clerk |
