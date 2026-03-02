@@ -21,10 +21,11 @@ model User {
   updatedAt DateTime @updatedAt
 
   // Relaciones
-  accounts     Account[]
-  categories   Category[]
-  transactions Transaction[]
-  budgets      Budget[]
+  accounts              Account[]
+  categories            Category[]
+  transactions          Transaction[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
 }
 
 // ═══════════════════════════════════════════
@@ -42,9 +43,10 @@ model Account {
   updatedAt      DateTime @updatedAt
 
   // Relaciones
-  userId       String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions          Transaction[]
+  recurringTransactions RecurringTransaction[]
 
   @@index([userId])
 }
@@ -61,10 +63,11 @@ model Category {
   createdAt DateTime @default(now())
 
   // Relaciones
-  userId       String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
-  budgets      Budget[]
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions          Transaction[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
 
   @@index([userId])
 }
@@ -113,4 +116,32 @@ model Budget {
 
   @@unique([userId, categoryId, period])
   @@index([userId])
+}
+
+// ═══════════════════════════════════════════
+// 🔄 TRANSACCIÓN RECURRENTE
+// ═══════════════════════════════════════════
+model RecurringTransaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  type        String   // "income" | "expense"
+  description String?
+  frequency   String   // "daily" | "weekly" | "biweekly" | "monthly" | "yearly"
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  nextDueDate DateTime
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId  String
+  account    Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([nextDueDate])
 }

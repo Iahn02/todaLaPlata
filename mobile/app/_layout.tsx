@@ -3,7 +3,19 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { LogBox } from 'react-native';
 import 'react-native-reanimated';
+
+// Suppress known warnings from internal libraries (React Navigation / Expo Router)
+LogBox.ignoreLogs(['props.pointerEvents is deprecated']);
+
+// Also suppress on web console, where LogBox doesn't apply
+const originalWarn = console.warn;
+console.warn = (...args: unknown[]) => {
+  const message = typeof args[0] === 'string' ? args[0] : '';
+  if (message.includes('props.pointerEvents is deprecated')) return;
+  originalWarn(...args);
+};
 
 import AppProviders from '@/providers/AppProviders';
 

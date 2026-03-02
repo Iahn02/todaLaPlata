@@ -48,6 +48,31 @@
   --transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   🌙 DARK MODE
+   ═══════════════════════════════════════════════════════════════ */
+.dark {
+  --bg-page: #0f0f0f;
+  --bg-dark: #1a1a1a;
+  --bg-card: #1a1a1a;
+  --bg-nested: #252525;
+
+  --text-primary: #f5f0eb;
+  --text-secondary: #d4cfc9;
+  --text-tertiary: #9a9a9a;
+  --text-light: #f5f0eb;
+  --text-muted: #6b6b6b;
+
+  --brand-primary: #f5f0eb;
+  --brand-cream: #3d3d3d;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
 @theme inline {
   --color-background: var(--bg-page);
   --color-foreground: var(--text-primary);
@@ -66,6 +91,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container-app {

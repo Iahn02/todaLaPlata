@@ -9,14 +9,12 @@ import { Category, Budget } from "@prisma/client";
 
 type CategoryWithBudgets = Category & { budgets?: Budget[] };
 
-// Mapeo seguro para transformar string "tag" a componente de lucide: <Tag />
 const resolveIcon = (iconName: string) => {
     const normalizedName = iconName.split('-').map(str => str.charAt(0).toUpperCase() + str.slice(1)).join('');
     const IconComponent = (LucideIcons as any)[normalizedName];
     return IconComponent || LucideIcons.Tag;
 };
 
-// Paleta controlada de colores para categorías
 const PREDEFINED_COLORS = [
     "#c95d45", "#f3701e", "#e2ba65", "#f59e0b",
     "#5a8a6a", "#10b981", "#14b8a6", "#4b607f",
@@ -48,32 +46,31 @@ export default function CategoriesPage() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-4xl mx-auto">
             <header className="mb-8 hidden md:flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Tus Categorías</h1>
-                    <p className="text-[#6b6b6b] mt-1">Agrupa tus movimientos y organiza tu dinero.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Tus Categorías</h1>
+                    <p className="text-[var(--text-tertiary)] mt-1">Agrupa tus movimientos y organiza tu dinero.</p>
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-[var(--brand-primary)] text-[var(--text-light)] font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
                 >
                     <Plus className="w-5 h-5" /> Nueva Categoría
                 </button>
             </header>
 
-            {/* Botón Flotante para Móviles */}
             <button
                 onClick={() => setIsCreating(true)}
-                className="md:hidden fixed bottom-24 right-6 z-40 w-14 h-14 bg-[#1a1a1a] hover:bg-[#f3701e] text-white rounded-full shadow-xl hover:shadow-[#f3701e]/20 flex items-center justify-center transition-all active:scale-90"
+                className="md:hidden fixed bottom-24 right-6 z-40 w-14 h-14 bg-[var(--brand-primary)] hover:bg-[#f3701e] text-[var(--text-light)] rounded-full shadow-xl flex items-center justify-center transition-all active:scale-90"
             >
                 <Plus className="w-6 h-6" />
             </button>
 
-            {/* Selector de Tipo (Income / Expense) */}
-            <div className="flex bg-[#f5f0eb] p-1.5 rounded-2xl mb-8 max-w-sm">
+            {/* Type Selector */}
+            <div className="flex bg-[var(--bg-nested)] p-1.5 rounded-2xl mb-8 max-w-sm transition-colors">
                 <button
                     onClick={() => setFilterType("expense")}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${filterType === "expense"
-                        ? "bg-white text-[#c95d45] shadow-sm"
-                        : "text-[#6b6b6b] hover:text-[#1a1a1a]"
+                        ? "bg-[var(--bg-card)] text-[#c95d45] shadow-sm"
+                        : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                         }`}
                 >
                     <ArrowDownCircle className="w-4 h-4" /> Gastos
@@ -81,8 +78,8 @@ export default function CategoriesPage() {
                 <button
                     onClick={() => setFilterType("income")}
                     className={`flex-1 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all ${filterType === "income"
-                        ? "bg-white text-[#4b607f] shadow-sm"
-                        : "text-[#6b6b6b] hover:text-[#1a1a1a]"
+                        ? "bg-[var(--bg-card)] text-[#4b607f] shadow-sm"
+                        : "text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                         }`}
                 >
                     <ArrowUpCircle className="w-4 h-4" /> Ingresos
@@ -107,7 +104,7 @@ export default function CategoriesPage() {
                     )}
 
                     {isLoading && !categories ? Array.from({ length: 4 }).map((_, i) => (
-                        <div key={i} className="bg-[#e8d8c9]/50 h-24 rounded-2xl animate-pulse" />
+                        <div key={i} className="bg-[var(--bg-nested)] h-24 rounded-2xl animate-pulse" />
                     )) : (
                         filteredCategories.map((cat: CategoryWithBudgets) => (
                             <motion.div
@@ -132,9 +129,9 @@ export default function CategoriesPage() {
                     )}
 
                     {!isLoading && filteredCategories.length === 0 && !isCreating && (
-                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-[#9a9a9a] border-2 border-dashed border-[#e8d8c9] rounded-3xl bg-[#f5f0eb]">
-                            <LucideIcons.Tags className="w-12 h-12 mb-4 text-[#e8d8c9]" />
-                            <p className="font-medium text-lg text-[#6b6b6b]">No hay categorías de este tipo.</p>
+                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-[var(--text-muted)] border-2 border-dashed border-[var(--brand-cream)]/60 rounded-3xl bg-[var(--bg-nested)] transition-colors">
+                            <LucideIcons.Tags className="w-12 h-12 mb-4 text-[var(--brand-cream)]" />
+                            <p className="font-medium text-lg text-[var(--text-tertiary)]">No hay categorías de este tipo.</p>
                             <p className="text-sm mt-1">Toca en Nueva Categoría para crear una.</p>
                         </div>
                     )}
@@ -156,7 +153,7 @@ function CategoryCard({ category, formatCurrency, onEdit }: { category: Category
     });
 
     return (
-        <div className="group bg-white p-5 flex-col md:flex-row rounded-3xl shadow-sm hover:shadow-md border border-[#e8d8c9]/60 transition-all duration-300 flex md:items-center justify-between overflow-hidden relative gap-3">
+        <div className="group bg-[var(--bg-card)] p-5 flex-col md:flex-row rounded-3xl shadow-sm hover:shadow-md border border-[var(--brand-cream)]/60 transition-all duration-300 flex md:items-center justify-between overflow-hidden relative gap-3">
             <div className="absolute top-0 right-0 w-24 h-24 opacity-10 rounded-bl-[100px] pointer-events-none transition-transform group-hover:scale-125 duration-500" style={{ backgroundColor: category.color }} />
 
             <div className="flex items-center gap-4 z-10">
@@ -168,9 +165,9 @@ function CategoryCard({ category, formatCurrency, onEdit }: { category: Category
                     <Icon className="w-6 h-6 z-10" />
                 </div>
                 <div className="flex flex-col">
-                    <h3 className="font-bold text-[17px] text-[#1a1a1a] truncate max-w-[150px]" title={category.name}>{category.name}</h3>
+                    <h3 className="font-bold text-[17px] text-[var(--text-primary)] truncate max-w-[150px]" title={category.name}>{category.name}</h3>
                     {budget && budget.amount > 0 && (
-                        <p className="text-xs font-medium text-[#6b6b6b]">Ppto: {formatCurrency(budget.amount)}</p>
+                        <p className="text-xs font-medium text-[var(--text-tertiary)]">Ppto: {formatCurrency(budget.amount)}</p>
                     )}
                 </div>
             </div>
@@ -178,14 +175,14 @@ function CategoryCard({ category, formatCurrency, onEdit }: { category: Category
             <div className="flex items-center gap-1 z-10 self-end md:self-auto opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity mt-2 md:mt-0">
                 <button
                     onClick={onEdit}
-                    className="p-2 text-[#9a9a9a] hover:text-[#f3701e] hover:bg-[#f5f0eb] rounded-lg transition-colors"
+                    className="p-2 text-[var(--text-muted)] hover:text-[#f3701e] hover:bg-[var(--bg-nested)] rounded-lg transition-colors"
                 >
                     <Edit2 className="w-4 h-4" />
                 </button>
                 <button
-                    onClick={() => { if (confirm("¿Seguro que deseas eliminar esta categoría? Cualquier transacción vinculada perderá su categoría.")) deleteMut.mutate({ id: category.id }) }}
+                    onClick={() => { if (confirm("¿Seguro que deseas eliminar esta categoría?")) deleteMut.mutate({ id: category.id }) }}
                     disabled={deleteMut.isPending}
-                    className="p-2 text-[#9a9a9a] hover:text-[#c95d45] hover:bg-[#c95d45]/10 rounded-lg transition-colors"
+                    className="p-2 text-[var(--text-muted)] hover:text-[#c95d45] hover:bg-[#c95d45]/10 rounded-lg transition-colors"
                 >
                     {deleteMut.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                 </button>
@@ -235,9 +232,8 @@ function CategoryEditorForm({
     const SelectedIcon = resolveIcon(icon);
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-5 rounded-3xl shadow-lg border border-[#e8d8c9] ring-2 ring-[#f3701e]/10 flex flex-col gap-4 relative z-20">
+        <form onSubmit={handleSubmit} className="bg-[var(--bg-card)] p-5 rounded-3xl shadow-lg border border-[var(--brand-cream)]/60 ring-2 ring-[#f3701e]/10 flex flex-col gap-4 relative z-20 transition-colors">
 
-            {/* HEADER: Name Input and Header Actions */}
             <div className="flex items-start gap-4">
                 <div
                     onClick={() => setShowIcons(!showIcons)}
@@ -255,20 +251,20 @@ function CategoryEditorForm({
                         placeholder="Ej: Alimentación..."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full text-lg font-bold text-[#1a1a1a] placeholder:text-[#e8d8c9] border-b-2 border-transparent focus:border-[#f3701e] bg-transparent py-1 transition-all outline-none"
+                        className="w-full text-lg font-bold text-[var(--text-primary)] placeholder:text-[var(--brand-cream)] border-b-2 border-transparent focus:border-[#f3701e] bg-transparent py-1 transition-all outline-none"
                     />
                     {(!category || category.type === "expense") && (type === "expense" || category?.type === "expense") && (
                         <div className="mt-2 flex items-center gap-2">
-                            <span className="text-xs font-semibold text-[#6b6b6b]">Ppto. Mensual:</span>
+                            <span className="text-xs font-semibold text-[var(--text-tertiary)]">Ppto. Mensual:</span>
                             <div className="relative flex-1">
-                                <span className="absolute left-2 top-1.5 text-xs text-[#9a9a9a]">$</span>
+                                <span className="absolute left-2 top-1.5 text-xs text-[var(--text-muted)]">$</span>
                                 <input
                                     type="number"
                                     min="0"
                                     placeholder="Ilimitado"
                                     value={monthlyBudget}
                                     onChange={(e) => setMonthlyBudget(e.target.value)}
-                                    className="w-full text-sm text-[#1a1a1a] placeholder:text-[#e8d8c9] border border-[#e8d8c9]/60 rounded-lg bg-gray-50 py-1 pl-5 pr-2 transition-all outline-none focus:border-[#f3701e] focus:bg-white"
+                                    className="w-full text-sm text-[var(--text-primary)] placeholder:text-[var(--brand-cream)] border border-[var(--brand-cream)]/40 rounded-lg bg-[var(--bg-nested)] py-1 pl-5 pr-2 transition-all outline-none focus:border-[#f3701e]"
                                 />
                             </div>
                         </div>
@@ -284,7 +280,7 @@ function CategoryEditorForm({
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="p-3 bg-[#f5f0eb] border border-[#e8d8c9] rounded-2xl mt-2 grid grid-cols-6 gap-2">
+                        <div className="p-3 bg-[var(--bg-nested)] border border-[var(--brand-cream)]/40 rounded-2xl mt-2 grid grid-cols-6 gap-2">
                             {PREDEFINED_ICONS.map(iName => {
                                 const Icn = resolveIcon(iName);
                                 return (
@@ -292,7 +288,7 @@ function CategoryEditorForm({
                                         key={iName}
                                         type="button"
                                         onClick={() => { setIcon(iName); setShowIcons(false); }}
-                                        className={`aspect-square flex items-center justify-center rounded-xl transition-all ${icon === iName ? 'bg-[#f3701e]/10 text-[#f3701e]' : 'text-[#9a9a9a] hover:bg-[#e8d8c9]/50 hover:text-[#1a1a1a]'}`}
+                                        className={`aspect-square flex items-center justify-center rounded-xl transition-all ${icon === iName ? 'bg-[#f3701e]/10 text-[#f3701e]' : 'text-[var(--text-muted)] hover:bg-[var(--brand-cream)]/30 hover:text-[var(--text-primary)]'}`}
                                     >
                                         <Icn className="w-5 h-5" />
                                     </button>
@@ -303,15 +299,14 @@ function CategoryEditorForm({
                 )}
             </AnimatePresence>
 
-            {/* FOOTER: Colors & Actions */}
-            <div className="flex items-center justify-between mt-2 pt-4 border-t border-[#e8d8c9]">
+            <div className="flex items-center justify-between mt-2 pt-4 border-t border-[var(--brand-cream)]/40">
                 <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 pr-4">
                     {PREDEFINED_COLORS.map(c => (
                         <button
                             key={c}
                             type="button"
                             onClick={() => setColor(c)}
-                            className={`w-6 h-6 rounded-full flex-shrink-0 transition-transform ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-[#1a1a1a]' : 'hover:scale-110'}`}
+                            className={`w-6 h-6 rounded-full flex-shrink-0 transition-transform ${color === c ? 'scale-125 ring-2 ring-offset-2 ring-[var(--text-primary)]' : 'hover:scale-110'}`}
                             style={{ backgroundColor: c }}
                         />
                     ))}
@@ -321,14 +316,14 @@ function CategoryEditorForm({
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="p-2 text-[#9a9a9a] hover:bg-[#f5f0eb] rounded-xl transition-colors"
+                        className="p-2 text-[var(--text-muted)] hover:bg-[var(--bg-nested)] rounded-xl transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
                     <button
                         type="submit"
                         disabled={isPending || !name.trim()}
-                        className="p-2 bg-[#f3701e] text-white hover:bg-[#d55f15] rounded-xl transition-all disabled:opacity-50 disabled:scale-100 active:scale-95 shadow-lg shadow-[#f3701e]/30"
+                        className="p-2 bg-[#f3701e] text-white hover:bg-[#d55f15] rounded-xl transition-all disabled:opacity-50 active:scale-95 shadow-lg shadow-[#f3701e]/30"
                     >
                         {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                     </button>

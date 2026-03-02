@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
   RefreshControl,
   View,
+  Animated,
 } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useAuth, useUser } from '@clerk/clerk-expo';
@@ -12,11 +13,23 @@ import { trpc } from '@/lib/trpc';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import SignInScreen from '@/components/SignInScreen';
+import QuickAddWidget from '@/components/QuickAddWidget';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const { isSignedIn } = useAuth();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    if (isSignedIn) {
+      Animated.parallel([
+        Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
+        Animated.spring(slideAnim, { toValue: 0, friction: 8, useNativeDriver: true }),
+      ]).start();
+    }
+  }, [isSignedIn]);
   const { user } = useUser();
 
   const accounts = trpc.accounts.getAll.useQuery(undefined, {
@@ -25,12 +38,15 @@ export default function HomeScreen() {
   const transactions = trpc.transactions.getAll.useQuery(undefined, {
     enabled: !!isSignedIn,
   });
+  const lookups = trpc.lookups.getEssentialData.useQuery(undefined, {
+    enabled: !!isSignedIn,
+  });
 
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await Promise.all([accounts.refetch(), transactions.refetch()]);
+    await Promise.all([accounts.refetch(), transactions.refetch(), lookups.refetch()]);
     setRefreshing(false);
   };
 
@@ -49,6 +65,7 @@ export default function HomeScreen() {
 
   const accountsList = accounts.data ?? [];
   const txList = transactions.data ?? [];
+  const categoriesList = lookups.data?.categories ?? [];
 
   const totalBalance = accountsList.reduce(
     (sum, acc) => sum + (acc.realBalance ?? 0),
@@ -82,9 +99,13 @@ export default function HomeScreen() {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.tint} />
       }
     >
+      <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
       <Text style={[styles.greeting, { color: theme.text }]}>
         👋 Hola, {user?.firstName ?? 'Usuario'}
       </Text>
+
+      {/* Quick-add widget (4.6) */}
+      <QuickAddWidget accounts={accountsList} categories={categoriesList} />
 
       <View style={[styles.balanceCard, { backgroundColor: '#1a1a1a' }]}>
         <Text style={[styles.balanceLabel, { color: '#9a9a9a' }]}>Balance Total</Text>
@@ -162,6 +183,7 @@ export default function HomeScreen() {
       ))}
 
       <View style={{ height: 32 }} />
+      </Animated.View>
     </ScrollView>
   );
 }

@@ -78,17 +78,17 @@
 
 **Objetivo:** App móvil nativa para iPhone conectada al mismo backend.
 
-| Tarea | Detalle                                                             |
-| :---- | :------------------------------------------------------------------ |
-| 4.1   | ✅ Inicializar proyecto Expo (React Native)                         |
-| 4.2   | ✅ Configurar navegación con Expo Router                            |
-| 4.3   | ✅ Conectar al mismo backend (API tRPC compartida)                  |
-| 4.4   | ✅ Implementar autenticación mobile con Clerk                       |
-| 4.5   | ✅ Recrear pantallas: Dashboard, Transacciones, Agregar gasto       |
-| 4.6   | Quick-add widget — agregar gasto rápido desde la pantalla principal |
-| 4.7   | Implementar notificaciones push (recordatorios de registro)         |
-| 4.8   | Optimizar UX mobile (gestos, haptic feedback, animaciones nativas)  |
-| 4.9   | TestFlight — publicar versión beta para iPhone                      |
+| Tarea | Detalle                                                                |
+| :---- | :--------------------------------------------------------------------- |
+| 4.1   | ✅ Inicializar proyecto Expo (React Native)                            |
+| 4.2   | ✅ Configurar navegación con Expo Router                               |
+| 4.3   | ✅ Conectar al mismo backend (API tRPC compartida)                     |
+| 4.4   | ✅ Implementar autenticación mobile con Clerk                          |
+| 4.5   | ✅ Recrear pantallas: Dashboard, Transacciones, Agregar gasto          |
+| 4.6   | ✅ Quick-add widget — agregar gasto rápido desde la pantalla principal |
+| 4.7   | Implementar notificaciones push (recordatorios de registro)            |
+| 4.8   | ✅ Optimizar UX mobile (gestos, haptic feedback, animaciones nativas)  |
+| 4.9   | TestFlight — publicar versión beta para iPhone                         |
 
 **Entregable:** App iOS instalable vía TestFlight.
 
@@ -98,13 +98,13 @@
 
 | Tarea | Detalle                                                                      |
 | :---- | :--------------------------------------------------------------------------- |
-| 5.1   | Transacciones recurrentes (sueldo, arriendo, Netflix, etc.)                  |
-| 5.2   | Exportar datos a CSV/Excel                                                   |
-| 5.3   | Dark mode / Light mode con persistencia                                      |
+| 5.1   | ✅ Transacciones recurrentes (sueldo, arriendo, Netflix, etc.)               |
+| 5.2   | ✅ Exportar datos a CSV/Excel                                                |
+| 5.3   | ✅ Dark mode / Light mode con persistencia                                   |
 | 5.4   | Dashboard con análisis avanzado: comparativa mes a mes, predicción de gastos |
 | 5.5   | Multi-moneda (CLP, USD, EUR) con tasas de cambio                             |
 | 5.6   | PWA — hacer la web instalable como app en cualquier dispositivo              |
-| 5.7   | Búsqueda global con debouncing                                               |
+| 5.7   | ✅ Búsqueda global con debouncing                                            |
 
 **Entregable:** App con features premium que la diferencian.
 

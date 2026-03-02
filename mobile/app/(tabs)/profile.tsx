@@ -15,6 +15,7 @@ import { trpc } from '@/lib/trpc';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import SignInScreen from '@/components/SignInScreen';
+import * as Haptics from 'expo-haptics';
 
 const ACCOUNT_TYPES = [
   { value: 'cash', label: '💵 Efectivo' },
@@ -34,12 +35,23 @@ export default function ProfileScreen() {
   const utils = trpc.useUtils();
   const accounts = trpc.accounts.getAll.useQuery(undefined, { enabled: !!isSignedIn });
   const createAccount = trpc.accounts.create.useMutation({
-    onSuccess: () => { utils.accounts.getAll.invalidate(); setShowCreateModal(false); resetCreateForm(); },
+    onSuccess: () => {
+      utils.accounts.getAll.invalidate();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setShowCreateModal(false);
+      resetCreateForm();
+    },
     onError: (err) => Alert.alert('Error', err.message),
   });
   const deleteAccount = trpc.accounts.delete.useMutation({
-    onSuccess: () => utils.accounts.getAll.invalidate(),
-    onError: (err) => Alert.alert('Error', err.message),
+    onSuccess: () => {
+      utils.accounts.getAll.invalidate();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    },
+    onError: (err) => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      Alert.alert('Error', err.message);
+    },
   });
 
   // Name editing
@@ -79,9 +91,11 @@ export default function ProfileScreen() {
 
   const handleCreateAccount = () => {
     if (!newAccName.trim()) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       Alert.alert('Error', 'Ingresa un nombre para la cuenta.');
       return;
     }
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     createAccount.mutate({
       name: newAccName.trim(),
       type: newAccType as any,
@@ -90,6 +104,7 @@ export default function ProfileScreen() {
   };
 
   const handleDeleteAccount = (id: string, name: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     Alert.alert('Eliminar cuenta', `¿Eliminar "${name}"? Se borrarán todas sus transacciones.`, [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Eliminar', style: 'destructive', onPress: () => deleteAccount.mutate({ id }) },
@@ -97,6 +112,7 @@ export default function ProfileScreen() {
   };
 
   const handleSignOut = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     Alert.alert('Cerrar sesión', '¿Estás seguro?', [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Sí, cerrar sesión', style: 'destructive', onPress: () => signOut() },

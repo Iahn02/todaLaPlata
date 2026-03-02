@@ -3,6 +3,7 @@ import { UserButton } from "@clerk/nextjs";
 import { getCurrentUser } from "@/lib/prisma";
 import { Navigation } from "@/components/Navigation";
 import { AddTransactionButton } from "@/components/AddTransactionModal";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default async function DashboardLayout({
     children,
@@ -16,10 +17,10 @@ export default async function DashboardLayout({
     }
 
     return (
-        <div className="min-h-screen bg-[#f5f0eb] text-[#1a1a1a] flex flex-col md:flex-row font-sans selection:bg-[#f3701e]/20">
+        <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)] flex flex-col md:flex-row font-sans selection:bg-[#f3701e]/20 transition-colors duration-300">
 
             {/* Sidebar for Desktop */}
-            <aside className="hidden md:flex flex-col w-72 bg-[#1a1a1a] sticky top-0 h-screen p-6 z-20">
+            <aside className="hidden md:flex flex-col w-72 bg-[#1a1a1a] dark:bg-[#111111] sticky top-0 h-screen p-6 z-20">
                 <div className="flex items-center gap-3 mb-8">
                     <div className="w-10 h-10 rounded-xl bg-[#f3701e] flex items-center justify-center shadow-lg shadow-[#f3701e]/20 text-white font-bold text-lg">
                         $
@@ -30,6 +31,11 @@ export default async function DashboardLayout({
                 </div>
 
                 <Navigation />
+
+                {/* Theme Toggle */}
+                <div className="mt-4">
+                    <ThemeToggle />
+                </div>
 
                 <div className="mt-auto bg-white/10 backdrop-blur-sm border border-white/10 p-4 rounded-xl flex items-center gap-3">
                     <UserButton
@@ -49,7 +55,7 @@ export default async function DashboardLayout({
             <div className="flex-1 flex flex-col min-h-screen relative pb-24 md:pb-0">
 
                 {/* Mobile Header */}
-                <header className="md:hidden sticky top-0 z-30 bg-[#1a1a1a] px-4 h-16 flex items-center justify-between">
+                <header className="md:hidden sticky top-0 z-30 bg-[#1a1a1a] dark:bg-[#111111] px-4 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-[#f3701e] flex items-center justify-center text-white font-bold text-sm shadow-sm">
                             $
@@ -58,7 +64,10 @@ export default async function DashboardLayout({
                             toda<span className="text-[#f3701e]">LaPlata</span>
                         </span>
                     </div>
-                    <UserButton afterSignOutUrl="/" />
+                    <div className="flex items-center gap-2">
+                        <ThemeToggle />
+                        <UserButton afterSignOutUrl="/" />
+                    </div>
                 </header>
 
                 {/* Dashboard Pages Content */}

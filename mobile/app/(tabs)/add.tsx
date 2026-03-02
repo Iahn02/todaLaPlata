@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   View,
+  Animated,
 } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useAuth } from '@clerk/clerk-expo';
@@ -16,11 +17,23 @@ import { trpc } from '@/lib/trpc';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import SignInScreen from '@/components/SignInScreen';
+import * as Haptics from 'expo-haptics';
 
 export default function AddScreen() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const { isSignedIn } = useAuth();
+
+  // Animated entrance
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(20)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 400, useNativeDriver: true }),
+      Animated.spring(slideAnim, { toValue: 0, friction: 8, useNativeDriver: true }),
+    ]).start();
+  }, []);
 
   const utils = trpc.useUtils();
   const lookups = trpc.lookups.getEssentialData.useQuery(undefined, {
@@ -32,10 +45,12 @@ export default function AddScreen() {
       utils.transactions.getAll.invalidate();
       utils.accounts.getAll.invalidate();
       utils.lookups.getEssentialData.invalidate();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       Alert.alert('✅ Listo', 'Transacción registrada exitosamente.');
       resetForm();
     },
     onError: (err) => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert('Error', err.message);
     },
   });
@@ -92,8 +107,10 @@ export default function AddScreen() {
   const accountId = selectedAccountId ?? accounts[0]?.id;
 
   const handleSubmit = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const numAmount = parseFloat(amount);
     if (isNaN(numAmount) || numAmount <= 0) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       Alert.alert('Error', 'Ingresa un monto válido.');
       return;
     }
@@ -121,10 +138,11 @@ export default function AddScreen() {
         contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
       >
+       <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
         {/* Type toggle */}
         <View style={styles.toggleRow}>
           <TouchableOpacity
-            onPress={() => { setType('expense'); setSelectedCategoryId(null); }}
+            onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setType('expense'); setSelectedCategoryId(null); }}
             activeOpacity={0.7}
             style={[
               styles.toggleBtn,
@@ -142,7 +160,7 @@ export default function AddScreen() {
           <View style={{ width: 12 }} />
 
           <TouchableOpacity
-            onPress={() => { setType('income'); setSelectedCategoryId(null); }}
+            onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); setType('income'); setSelectedCategoryId(null); }}
             activeOpacity={0.7}
             style={[
               styles.toggleBtn,
@@ -192,7 +210,7 @@ export default function AddScreen() {
               return (
                 <TouchableOpacity
                   key={acc.id}
-                  onPress={() => setSelectedAccountId(acc.id)}
+                  onPress={() => { Haptics.selectionAsync(); setSelectedAccountId(acc.id); }}
                   activeOpacity={0.7}
                   style={[
                     styles.chip,
@@ -224,7 +242,7 @@ export default function AddScreen() {
               return (
                 <TouchableOpacity
                   key={cat.id}
-                  onPress={() => setSelectedCategoryId(isActive ? null : cat.id)}
+                  onPress={() => { Haptics.selectionAsync(); setSelectedCategoryId(isActive ? null : cat.id); }}
                   activeOpacity={0.7}
                   style={[
                     styles.chip,
@@ -258,6 +276,7 @@ export default function AddScreen() {
             </Text>
           )}
         </TouchableOpacity>
+       </Animated.View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

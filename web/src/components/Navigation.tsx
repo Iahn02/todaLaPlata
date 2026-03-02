@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ArrowRightLeft, Tags, Wallet } from "lucide-react";
+import { LayoutDashboard, ArrowRightLeft, Tags, Wallet, RefreshCw } from "lucide-react";
 
 const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Transacciones", href: "/dashboard/transactions", icon: ArrowRightLeft },
     { name: "Cuentas", href: "/dashboard/accounts", icon: Wallet },
     { name: "Categorías", href: "/dashboard/categories", icon: Tags },
+    { name: "Recurrentes", href: "/dashboard/recurring", icon: RefreshCw },
 ];
 
 export function Navigation() {

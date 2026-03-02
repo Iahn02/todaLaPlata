@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Pressable,
   View,
+  Animated,
 } from 'react-native';
 import { Text } from '@/components/Themed';
 import { useAuth } from '@clerk/clerk-expo';
@@ -13,6 +14,83 @@ import { trpc } from '@/lib/trpc';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import SignInScreen from '@/components/SignInScreen';
+import * as Haptics from 'expo-haptics';
+
+function AnimatedTxCard({
+  tx,
+  theme,
+  colorScheme,
+  index,
+}: {
+  tx: any;
+  theme: any;
+  colorScheme: string | null | undefined;
+  index: number;
+}) {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    const delay = Math.min(index * 60, 500);
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 350,
+        delay,
+        useNativeDriver: true,
+      }),
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        friction: 8,
+        delay,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  const formatMoney = (amount: number) => `$${amount.toLocaleString('es-CL')}`;
+
+  return (
+    <Animated.View
+      style={[
+        styles.txCard,
+        {
+          backgroundColor: theme.card,
+          borderColor: theme.border,
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        },
+      ]}
+    >
+      <View style={styles.txLeft}>
+        <View
+          style={[
+            styles.txDot,
+            { backgroundColor: tx.type === 'income' ? '#4b607f' : '#c95d45' },
+          ]}
+        />
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.txDesc, { color: theme.text }]}>
+            {tx.description || 'Sin descripción'}
+          </Text>
+          <Text style={{ color: '#9a9a9a', fontSize: 12, marginTop: 2 }}>
+            {tx.category?.name ?? 'Sin categoría'} ·{' '}
+            {new Date(tx.date).toLocaleDateString('es-CL')}
+          </Text>
+        </View>
+      </View>
+      <Text
+        style={[
+          styles.txAmount,
+          { color: tx.type === 'income' ? '#4b607f' : '#c95d45' },
+        ]}
+      >
+        {tx.type === 'income' ? '+' : '-'}
+        {formatMoney(tx.amount)}
+      </Text>
+    </Animated.View>
+  );
+}
 
 export default function TransactionsScreen() {
   const colorScheme = useColorScheme();
@@ -47,8 +125,6 @@ export default function TransactionsScreen() {
   const txList = transactions.data ?? [];
   const filtered = filter === 'all' ? txList : txList.filter((tx) => tx.type === filter);
 
-  const formatMoney = (amount: number) => `$${amount.toLocaleString('es-CL')}`;
-
   return (
     <ScrollView
       style={[styles.scroll, { backgroundColor: theme.background }]}
@@ -65,7 +141,10 @@ export default function TransactionsScreen() {
           return (
             <Pressable
               key={f}
-              onPress={() => setFilter(f)}
+              onPress={() => {
+                Haptics.selectionAsync();
+                setFilter(f);
+              }}
               style={[
                 styles.filterPill,
                 {
@@ -95,26 +174,14 @@ export default function TransactionsScreen() {
         </View>
       )}
 
-      {filtered.map((tx) => (
-        <View
+      {filtered.map((tx, index) => (
+        <AnimatedTxCard
           key={tx.id}
-          style={[styles.txCard, { backgroundColor: theme.card, borderColor: theme.border }]}
-        >
-          <View style={styles.txLeft}>
-            <View style={[styles.txDot, { backgroundColor: tx.type === 'income' ? '#4b607f' : '#c95d45' }]} />
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.txDesc, { color: theme.text }]}>
-                {tx.description || 'Sin descripción'}
-              </Text>
-              <Text style={{ color: '#9a9a9a', fontSize: 12, marginTop: 2 }}>
-                {tx.category?.name ?? 'Sin categoría'} · {new Date(tx.date).toLocaleDateString('es-CL')}
-              </Text>
-            </View>
-          </View>
-          <Text style={[styles.txAmount, { color: tx.type === 'income' ? '#4b607f' : '#c95d45' }]}>
-            {tx.type === 'income' ? '+' : '-'}{formatMoney(tx.amount)}
-          </Text>
-        </View>
+          tx={tx}
+          theme={theme}
+          colorScheme={colorScheme}
+          index={index}
+        />
       ))}
 
       <View style={{ height: 32 }} />

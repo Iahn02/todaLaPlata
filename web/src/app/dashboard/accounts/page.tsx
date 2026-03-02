@@ -6,14 +6,11 @@ import {
     Plus, Wallet, Landmark, CreditCard, Banknote, LineChart,
     Settings2, Edit2, Trash2, Save, X, Loader2
 } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Account } from "@prisma/client";
 
-// Tipos permitidos
 type AccountType = "bank" | "cash" | "credit_card" | "savings" | "investment";
 
-// Resolvemos los iconos de base de datos
 const resolveTypeIcon = (type: string) => {
     switch (type) {
         case "bank": return Landmark;
@@ -34,7 +31,6 @@ const resolveDictType = (type: string) => {
     }
 }
 
-// Colores Premium Controlados
 const ACC_COLORS = [
     "#1a1a1a", "#4b607f", "#f3701e", "#c95d45",
     "#e2ba65", "#5a8a6a", "#8b5cf6", "#3b82f6",
@@ -45,7 +41,6 @@ export default function AccountsPage() {
     const { data: accountsRaw, isLoading } = trpc.accounts.getAll.useQuery();
     const utils = trpc.useUtils();
 
-    // Type Override since we extend realBalance from the backend
     type ExtendedAccount = Account & { realBalance: number };
     const accounts = accountsRaw as unknown as ExtendedAccount[];
 
@@ -62,47 +57,48 @@ export default function AccountsPage() {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-5xl mx-auto">
             <header className="mb-8 hidden md:flex items-end justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Billeteras & Cuentas</h1>
-                    <p className="text-[#6b6b6b] mt-1">Administra tus métodos de pago y cuentas bancarias.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Billeteras & Cuentas</h1>
+                    <p className="text-[var(--text-tertiary)] mt-1">Administra tus métodos de pago y cuentas bancarias.</p>
                 </div>
                 <button
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#1a1a1a] text-white font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
+                    className="flex items-center gap-2 px-6 py-3 bg-[var(--brand-primary)] text-[var(--text-light)] font-medium rounded-xl hover:bg-[#f3701e] hover:shadow-lg hover:shadow-[#f3701e]/20 active:scale-95 transition-all"
                 >
                     <Plus className="w-5 h-5" /> Añadir Cuenta
                 </button>
             </header>
 
-            {/* Fab button mobile */}
             <button
                 onClick={() => setIsCreating(true)}
-                className="md:hidden fixed bottom-24 left-6 z-40 w-14 h-14 bg-[#1a1a1a] text-white rounded-full shadow-xl hover:shadow-[#1a1a1a]/20 flex items-center justify-center transition-all active:scale-90"
+                className="md:hidden fixed bottom-24 left-6 z-40 w-14 h-14 bg-[var(--brand-primary)] text-[var(--text-light)] rounded-full shadow-xl flex items-center justify-center transition-all active:scale-90"
             >
                 <Plus className="w-6 h-6" />
             </button>
 
             {/* Resumen Total */}
-            <div className="bg-[#1a1a1a] rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl shadow-[#1a1a1a]/20">
+            <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden shadow-xl shadow-black/10">
                 <div className="absolute right-0 bottom-0 w-64 h-64 bg-[#f3701e]/10 rounded-tl-full pointer-events-none" />
                 <div className="absolute left-10 -top-10 w-32 h-32 bg-[#4b607f]/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute right-20 top-5 w-20 h-20 bg-[#e2ba65]/10 rounded-full blur-xl pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
-                        <p className="font-medium text-[#f5f0eb]/70 flex items-center gap-2 mb-2">
-                            <Wallet className="w-5 h-5 opacity-80" /> Patrimonio Total (Cuentas activas)
+                        <p className="font-medium text-white/60 flex items-center gap-2 mb-2 text-sm">
+                            <Wallet className="w-4 h-4 opacity-80" /> Patrimonio Total
                         </p>
                         {isLoading ? (
                             <div className="w-48 h-10 bg-white/20 animate-pulse rounded-xl" />
                         ) : (
-                            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
+                            <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                                 {formatCurrency(totalBalance)}
                             </h2>
                         )}
+                        <p className="text-white/40 text-xs mt-2">{accounts?.filter(a => a.includeInTotal).length || 0} cuentas activas</p>
                     </div>
                 </div>
             </div>
 
-            {/* Editor de Cuenta Empotrado o Grid de Cartas */}
+            {/* Grid de Cuentas */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <AnimatePresence>
                     {isCreating && (
@@ -114,16 +110,16 @@ export default function AccountsPage() {
                         >
                             <AccountEditorForm
                                 onCancel={() => setIsCreating(false)}
-                                onSuccess={() => { setIsCreating(false); utils.accounts.getAll.invalidate(); }}
+                                onSuccess={() => { setIsCreating(false); utils.accounts.getAll.invalidate(); utils.lookups.getEssentialData.invalidate(); }}
                             />
                         </motion.div>
                     )}
                 </AnimatePresence>
 
                 {isLoading && !accounts ? Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="bg-[#e8d8c9]/50 h-48 rounded-3xl animate-pulse" />
+                    <div key={i} className="bg-[var(--bg-nested)] h-48 rounded-3xl animate-pulse" />
                 )) : (
-                    accounts.map((acc) => (
+                    accounts?.map((acc) => (
                         <motion.div
                             layout
                             key={acc.id}
@@ -136,7 +132,7 @@ export default function AccountsPage() {
                                 <AccountEditorForm
                                     account={acc}
                                     onCancel={() => setEditingAccId(null)}
-                                    onSuccess={() => { setEditingAccId(null); utils.accounts.getAll.invalidate(); }}
+                                    onSuccess={() => { setEditingAccId(null); utils.accounts.getAll.invalidate(); utils.lookups.getEssentialData.invalidate(); }}
                                 />
                             ) : (
                                 <AccountCard account={acc} onEdit={() => setEditingAccId(acc.id)} formatCurrency={formatCurrency} />
@@ -149,9 +145,6 @@ export default function AccountsPage() {
     );
 }
 
-// ==========================================
-// Tarjeta Premium Visual de una Cuenta
-// ==========================================
 function AccountCard({
     account,
     onEdit,
@@ -171,18 +164,17 @@ function AccountCard({
 
     return (
         <div
-            className="group relative h-48 rounded-3xl p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            className="group relative h-48 rounded-3xl p-6 flex flex-col justify-between overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl cursor-pointer"
             style={{
                 backgroundColor: account.color,
                 boxShadow: `0 10px 30px -10px ${account.color}70`,
                 opacity: account.includeInTotal ? 1 : 0.85
             }}
         >
-            {/* Decals background pattern */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full pointer-events-none transition-transform group-hover:scale-125 duration-700" />
             <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-black/10 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-20 h-20 bg-white/5 rounded-tl-full pointer-events-none" />
 
-            {/* Header: Name and Menu */}
             <div className="relative z-10 flex items-start justify-between text-white">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -190,11 +182,11 @@ function AccountCard({
                     </div>
                     <div>
                         <h3 className="font-bold text-lg md:text-xl leading-tight truncate max-w-[130px]" title={account.name}>{account.name}</h3>
-                        <p className="text-white/70 text-xs font-medium">{resolveDictType(account.type)}</p>
+                        <p className="text-white/60 text-xs font-medium">{resolveDictType(account.type)}</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-md rounded-lg p-1">
+                <div className="flex items-center gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/20 backdrop-blur-md rounded-lg p-1">
                     <button
                         onClick={onEdit}
                         className="p-1.5 text-white/80 hover:text-white hover:bg-white/20 rounded-md transition-colors"
@@ -202,7 +194,7 @@ function AccountCard({
                         <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
-                        onClick={() => { if (confirm(`¿ELIMINAR ${account.name}?\n⚠️ ESTO BORRARÁ TODAS TUS TRANSACCIONES ASOCIADAS A ESTA CUENTA. ESTA ACCIÓN ES IRREVERSIBLE.`)) deleteMut.mutate({ id: account.id }) }}
+                        onClick={() => { if (confirm(`¿ELIMINAR ${account.name}?\n⚠️ ESTO BORRARÁ TODAS TUS TRANSACCIONES ASOCIADAS.`)) deleteMut.mutate({ id: account.id }) }}
                         disabled={deleteMut.isPending}
                         className="p-1.5 text-white/80 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition-colors"
                     >
@@ -211,14 +203,13 @@ function AccountCard({
                 </div>
             </div>
 
-            {/* Footer: Balance */}
             <div className="relative z-10 mt-auto">
                 {!account.includeInTotal && (
                     <span className="inline-block px-2 py-1 bg-black/20 backdrop-blur-md text-white/90 text-[10px] uppercase font-bold tracking-wider rounded-md mb-2">
                         No suma al total
                     </span>
                 )}
-                <p className="text-white/80 text-sm font-medium mb-0.5">Saldo Real</p>
+                <p className="text-white/50 text-xs font-medium mb-0.5">Saldo Real</p>
                 <h4 className="text-3xl font-bold tracking-tight text-white line-clamp-1">
                     {formatCurrency(account.realBalance)}
                 </h4>
@@ -227,9 +218,6 @@ function AccountCard({
     );
 }
 
-// ==========================================
-// Formulario de Editor Integrado
-// ==========================================
 function AccountEditorForm({
     account,
     onCancel,
@@ -262,39 +250,37 @@ function AccountEditorForm({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-3xl shadow-xl shadow-[#1a1a1a]/5 border border-[#e8d8c9]/60 flex flex-col gap-6 relative z-20">
-            <div className="flex items-center justify-between border-b border-[#e8d8c9] pb-4">
+        <form onSubmit={handleSubmit} className="bg-[var(--bg-card)] p-6 rounded-3xl shadow-xl border border-[var(--brand-cream)]/60 flex flex-col gap-6 relative z-20 transition-colors">
+            <div className="flex items-center justify-between border-b border-[var(--brand-cream)]/40 pb-4">
                 <div>
-                    <h3 className="font-bold text-xl text-[#1a1a1a]">{account ? "Editar Cuenta" : "Nueva Cuenta"}</h3>
-                    <p className="text-sm text-[#6b6b6b] font-medium mt-0.5">Configura tu billetera para transacciones.</p>
+                    <h3 className="font-bold text-xl text-[var(--text-primary)]">{account ? "Editar Cuenta" : "Nueva Cuenta"}</h3>
+                    <p className="text-sm text-[var(--text-tertiary)] font-medium mt-0.5">Configura tu billetera para transacciones.</p>
                 </div>
-                <button type="button" onClick={onCancel} className="p-2 text-[#9a9a9a] hover:bg-[#f5f0eb] rounded-full transition-colors">
+                <button type="button" onClick={onCancel} className="p-2 text-[var(--text-muted)] hover:bg-[var(--bg-nested)] rounded-full transition-colors">
                     <X className="w-5 h-5" />
                 </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* Nombre */}
                 <div className="lg:col-span-2">
-                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Nombre de la cuenta</label>
+                    <label className="block text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider mb-2">Nombre de la cuenta</label>
                     <input
                         type="text"
                         required
                         placeholder="Ej: Banco Estado, Billetera Física..."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="block w-full px-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-medium focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
+                        className="block w-full px-4 py-3.5 bg-[var(--bg-nested)] border border-[var(--brand-cream)]/40 rounded-xl text-[var(--text-primary)] font-medium focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                     />
                 </div>
 
-                {/* Tipo */}
                 <div>
-                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Tipo de Institución</label>
+                    <label className="block text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider mb-2">Tipo de Institución</label>
                     <div className="relative">
                         <select
                             value={type}
                             onChange={(e) => setType(e.target.value as AccountType)}
-                            className="block w-full px-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-medium appearance-none focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
+                            className="block w-full px-4 py-3.5 bg-[var(--bg-nested)] border border-[var(--brand-cream)]/40 rounded-xl text-[var(--text-primary)] font-medium appearance-none focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                         >
                             <option value="bank">Banco Local / Internacional</option>
                             <option value="credit_card">Tarjeta de Crédito</option>
@@ -302,32 +288,28 @@ function AccountEditorForm({
                             <option value="investment">Inversiones (Stocks/Crypto)</option>
                             <option value="cash">Efectivo Físico</option>
                         </select>
-                        <Settings2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9a9a9a] pointer-events-none" />
+                        <Settings2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)] pointer-events-none" />
                     </div>
                 </div>
 
-                {/* Saldo Inicial */}
                 <div>
-                    <label className="block text-xs font-semibold text-[#6b6b6b] uppercase tracking-wider mb-2">Saldo Inicial (Base)</label>
+                    <label className="block text-xs font-semibold text-[var(--text-tertiary)] uppercase tracking-wider mb-2">Saldo Inicial (Base)</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[#9a9a9a]">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-[var(--text-muted)]">$</span>
                         <input
                             type="number"
                             required
                             value={balance}
                             onChange={(e) => setBalance(parseFloat(e.target.value) || 0)}
-                            className="block w-full pl-9 pr-4 py-3.5 bg-[#f5f0eb] border border-[#e8d8c9] rounded-xl text-[#1a1a1a] font-bold focus:bg-white focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
+                            className="block w-full pl-9 pr-4 py-3.5 bg-[var(--bg-nested)] border border-[var(--brand-cream)]/40 rounded-xl text-[var(--text-primary)] font-bold focus:ring-2 focus:ring-[#f3701e]/20 focus:border-[#f3701e] transition-all outline-none"
                         />
                     </div>
-                    <p className="text-[10px] text-[#9a9a9a] mt-1.5 font-medium leading-tight">Monto antes de las transacciones.</p>
+                    <p className="text-[10px] text-[var(--text-muted)] mt-1.5 font-medium leading-tight">Monto antes de las transacciones.</p>
                 </div>
             </div>
 
-            {/* Opciones Especiales */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-2 border-t border-[#e8d8c9] mt-2">
-
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pt-2 border-t border-[var(--brand-cream)]/40 mt-2">
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
-                    {/* Colors */}
                     <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-2">
                         {ACC_COLORS.map(c => (
                             <button
@@ -340,7 +322,6 @@ function AccountEditorForm({
                         ))}
                     </div>
 
-                    {/* Include in Total Checkbox toggle */}
                     <label className="flex items-center gap-3 cursor-pointer group">
                         <div className="relative flex items-center">
                             <input
@@ -349,18 +330,17 @@ function AccountEditorForm({
                                 onChange={(e) => setIncludeInTotal(e.target.checked)}
                                 className="sr-only peer"
                             />
-                            <div className="w-11 h-6 bg-[#e8d8c9] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#e8d8c9] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#f3701e]"></div>
+                            <div className="w-11 h-6 bg-[var(--brand-cream)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[var(--brand-cream)] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#f3701e]"></div>
                         </div>
-                        <span className="text-sm font-semibold text-[#6b6b6b] group-hover:text-[#1a1a1a] transition-colors">Sumar al Patrimonio Total</span>
+                        <span className="text-sm font-semibold text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] transition-colors">Sumar al Patrimonio Total</span>
                     </label>
                 </div>
 
-                {/* Acciones */}
                 <div className="flex gap-3 mt-4 md:mt-0">
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-6 py-3 font-semibold text-[#6b6b6b] hover:bg-[#f5f0eb] rounded-xl transition-all"
+                        className="px-6 py-3 font-semibold text-[var(--text-tertiary)] hover:bg-[var(--bg-nested)] rounded-xl transition-all"
                     >
                         Cancelar
                     </button>
@@ -373,7 +353,6 @@ function AccountEditorForm({
                         {account ? "Guardar" : "Crear"}
                     </button>
                 </div>
-
             </div>
         </form>
     );

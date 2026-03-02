@@ -9,6 +9,8 @@ import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Category } from "@prisma/client";
 
+import { ExportCSVButton } from "@/components/ExportCSVButton";
+
 // Helper para convertir nombre string a Icon de lucide
 const resolveIcon = (iconName?: string | null) => {
     if (!iconName) return ArrowRightLeft;
@@ -52,9 +54,10 @@ export default function TransactionsPage() {
 
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Transacciones</h1>
-                    <p className="text-[#6b6b6b] mt-1">Revisa tu historial completo de movimientos.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">Transacciones</h1>
+                    <p className="text-[var(--text-tertiary)] mt-1">Revisa tu historial completo de movimientos.</p>
                 </div>
+                <ExportCSVButton />
             </header>
 
             {/* BARRA DE BÚSQUEDA Y CONTROLES */}

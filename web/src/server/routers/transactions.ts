@@ -136,4 +136,25 @@ export const transactionsRouter = router({
                 where: { id: input.id },
             });
         }),
+
+    // Exportar transacciones como CSV
+    exportCSV: protectedProcedure.query(async ({ ctx }) => {
+        const transactions = await ctx.prisma.transaction.findMany({
+            where: { userId: ctx.user.id },
+            include: { category: true, account: true },
+            orderBy: { date: "desc" },
+        });
+
+        const header = "Fecha,Tipo,Monto,Descripción,Categoría,Cuenta\n";
+        const rows = transactions.map((tx) => {
+            const date = new Date(tx.date).toLocaleDateString("es-CL");
+            const type = tx.type === "income" ? "Ingreso" : tx.type === "expense" ? "Gasto" : "Transferencia";
+            const desc = (tx.description || "").replace(/,/g, ";").replace(/\n/g, " ");
+            const cat = tx.category?.name || "Sin categoría";
+            const acc = tx.account.name;
+            return `${date},${type},${tx.amount},"${desc}",${cat},${acc}`;
+        });
+
+        return header + rows.join("\n");
+    }),
 });

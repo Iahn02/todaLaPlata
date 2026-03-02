@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import TRPCProvider from "@/trpc/Provider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
@@ -39,7 +40,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="es" suppressHydrationWarning>
         <body className={`${dmSans.variable} ${dmMono.variable} antialiased`}>
-          <TRPCProvider>{children}</TRPCProvider>
+          <ThemeProvider>
+            <TRPCProvider>{children}</TRPCProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
