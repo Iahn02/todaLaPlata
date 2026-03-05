@@ -15,21 +15,15 @@ export function BudgetProgress({ transactions, categories }: BudgetProgressProps
 
     const budgetStats = useMemo(() => {
         const budgetedCategories = categories.filter(c => c.type === "expense" && c.budgets?.some((b: Budget) => b.period === "monthly" && b.amount > 0));
-
         if (budgetedCategories.length === 0) return [];
-
         const now = new Date();
-
         return budgetedCategories.map(cat => {
             const budgetAmount = cat.budgets!.find((b: Budget) => b.period === "monthly")!.amount;
-
             const currentMonthExpenses = transactions
                 .filter(tx => tx.categoryId === cat.id && tx.type === "expense" && isSameMonth(new Date(tx.date), now))
                 .reduce((acc, tx) => acc + tx.amount, 0);
-
             let percentage = (currentMonthExpenses / budgetAmount) * 100;
             const isOverBudget = currentMonthExpenses > budgetAmount;
-
             return {
                 ...cat,
                 budgetAmount,
@@ -39,23 +33,20 @@ export function BudgetProgress({ transactions, categories }: BudgetProgressProps
                 rawPercentage: percentage
             };
         }).sort((a, b) => b.percentage - a.percentage);
-
     }, [transactions, categories]);
 
     const formatClp = (amount: number) => {
         return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount);
     };
 
-    if (budgetStats.length === 0) {
-        return null;
-    }
+    if (budgetStats.length === 0) return null;
 
     return (
-        <div className="bg-[var(--bg-card)] p-6 rounded-3xl shadow-sm border border-[var(--brand-cream)]/60 flex flex-col mt-6 transition-colors">
+        <div className="bg-[var(--bg-card)] p-6 rounded-2xl shadow-[var(--shadow-md)] border border-[var(--glass-border)] flex flex-col mt-5 transition-colors">
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h3 className="font-semibold text-lg text-[var(--text-primary)]">Presupuestos</h3>
-                    <p className="text-sm text-[var(--text-tertiary)]">Progreso de este mes</p>
+                    <h3 className="font-semibold text-[var(--text-primary)]">Presupuestos</h3>
+                    <p className="text-sm text-[var(--text-muted)]">Progreso de este mes</p>
                 </div>
             </div>
 
@@ -65,20 +56,20 @@ export function BudgetProgress({ transactions, categories }: BudgetProgressProps
                         <div className="flex items-center justify-between text-sm">
                             <div className="flex items-center gap-2">
                                 <span className="font-semibold text-[var(--text-primary)]">{stat.name}</span>
-                                {stat.isOverBudget && <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#c95d45]/10 text-[#c95d45]">¡Excedido!</span>}
+                                {stat.isOverBudget && <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#ef4444]/10 text-[#ef4444]">¡Excedido!</span>}
                             </div>
-                            <span className="font-medium text-[var(--text-tertiary)]">
-                                <span className={stat.isOverBudget ? "text-[#c95d45] font-bold" : "text-[var(--text-primary)]"}>{formatClp(stat.currentSpend)}</span> / {formatClp(stat.budgetAmount)}
+                            <span className="font-medium text-[var(--text-muted)]">
+                                <span className={stat.isOverBudget ? "text-[#ef4444] font-bold" : "text-[var(--text-primary)]"}>{formatClp(stat.currentSpend)}</span> / {formatClp(stat.budgetAmount)}
                             </span>
                         </div>
 
-                        <div className="h-2.5 w-full bg-[var(--bg-nested)] rounded-full overflow-hidden flex">
+                        <div className="h-2 w-full bg-[var(--bg-nested)] rounded-full overflow-hidden flex">
                             <div
-                                className={`h-full transition-all duration-700 ease-out rounded-full ${stat.isOverBudget ? 'bg-[#c95d45]' : stat.percentage > 85 ? 'bg-[#f59e0b]' : 'bg-[#4b607f]'}`}
+                                className={`h-full transition-all duration-700 ease-out rounded-full ${stat.isOverBudget ? 'bg-[#ef4444]' : stat.percentage > 85 ? 'bg-[#f59e0b]' : 'bg-[#6366f1]'}`}
                                 style={{ width: `${stat.percentage}%` }}
                             />
                         </div>
-                        <p className="text-xs text-right text-[var(--text-muted)]">
+                        <p className="text-[11px] text-right text-[var(--text-muted)]">
                             {stat.rawPercentage.toFixed(1)}% consumido
                         </p>
                     </div>

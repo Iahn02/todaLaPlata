@@ -9,20 +9,20 @@ export function ThemeToggle() {
     const options = [
         { value: "light" as const, icon: Sun, label: "Claro" },
         { value: "dark" as const, icon: Moon, label: "Oscuro" },
-        { value: "system" as const, icon: Monitor, label: "Sistema" },
+        { value: "system" as const, icon: Monitor, label: "Auto" },
     ];
 
     return (
-        <div className="flex bg-[var(--bg-nested)] dark:bg-white/5 p-1 rounded-xl gap-0.5">
+        <div className="flex bg-white/[0.04] p-1 rounded-xl gap-0.5 border border-white/[0.06]">
             {options.map(({ value, icon: Icon, label }) => {
                 const isActive = theme === value;
                 return (
                     <button
                         key={value}
                         onClick={() => setTheme(value)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${isActive
-                            ? "bg-white dark:bg-white/10 text-[#f3701e] shadow-sm"
-                            : "text-[var(--text-muted)] hover:text-[var(--text-primary)] dark:hover:text-white"
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${isActive
+                            ? "bg-[#6366f1]/15 text-[#818cf8] shadow-sm"
+                            : "text-white/30 hover:text-white/60"
                             }`}
                         title={label}
                     >

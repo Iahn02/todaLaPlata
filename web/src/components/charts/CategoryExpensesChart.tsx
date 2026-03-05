@@ -13,23 +13,16 @@ interface CategoryExpensesChartProps {
 export function CategoryExpensesChart({ transactions }: CategoryExpensesChartProps) {
     const data = useMemo(() => {
         if (!transactions) return [];
-
-        // Filtramos solo gastos
         const expenses = transactions.filter(t => t.type === "expense");
-
-        // Agrupamos por categoría
         const grouped = expenses.reduce((acc, tx) => {
             const catName = tx.category?.name || "Sin Categoría";
-            const catColor = tx.category?.color || "#9a9a9a"; // Gris por defecto para sin categoría
-
+            const catColor = tx.category?.color || "#94a3b8";
             if (!acc[catName]) {
                 acc[catName] = { name: catName, value: 0, color: catColor };
             }
             acc[catName].value += tx.amount;
             return acc;
         }, {} as Record<string, { name: string; value: number; color: string }>);
-
-        // Convertimos a array y ordenamos por valor descendente
         return Object.values(grouped).sort((a, b) => b.value - a.value);
     }, [transactions]);
 
@@ -39,7 +32,7 @@ export function CategoryExpensesChart({ transactions }: CategoryExpensesChartPro
 
     if (data.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center h-full text-[#9a9a9a]">
+            <div className="flex flex-col items-center justify-center h-full text-[var(--text-muted)]">
                 <p className="font-medium text-sm">No hay gastos para mostrar.</p>
             </div>
         );
@@ -53,9 +46,9 @@ export function CategoryExpensesChart({ transactions }: CategoryExpensesChartPro
                         data={data}
                         cx="50%"
                         cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        paddingAngle={5}
+                        innerRadius={55}
+                        outerRadius={78}
+                        paddingAngle={4}
                         dataKey="value"
                         stroke="none"
                     >
@@ -66,13 +59,13 @@ export function CategoryExpensesChart({ transactions }: CategoryExpensesChartPro
                     <Tooltip
                         formatter={(value: any) => [formatCurrency(Number(value) || 0), "Total"]}
                         contentStyle={{
-                            backgroundColor: '#1a1a1a',
+                            backgroundColor: 'var(--bg-card)',
                             borderRadius: '12px',
-                            border: 'none',
-                            color: '#f5f0eb',
-                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)'
+                            border: '1px solid var(--glass-border)',
+                            color: 'var(--text-primary)',
+                            boxShadow: 'var(--shadow-lg)'
                         }}
-                        itemStyle={{ color: '#f5f0eb', fontWeight: 600 }}
+                        itemStyle={{ color: 'var(--text-primary)', fontWeight: 600 }}
                     />
                     <Legend
                         layout="horizontal"

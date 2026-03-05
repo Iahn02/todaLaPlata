@@ -1,20 +1,20 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { DM_Sans, DM_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import TRPCProvider from "@/trpc/Provider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const dmSans = DM_Sans({
+const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
-const dmMono = DM_Mono({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="es" suppressHydrationWarning>
-        <body className={`${dmSans.variable} ${dmMono.variable} antialiased`}>
+        <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}>
           <ThemeProvider>
             <TRPCProvider>{children}</TRPCProvider>
           </ThemeProvider>

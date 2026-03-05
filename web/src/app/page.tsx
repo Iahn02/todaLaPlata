@@ -3,42 +3,73 @@ import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@cl
 
 export default function Home() {
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col font-sans">
-      {/* ═══════════════════════════════════════
-          NAVBAR — Estilo Retro Landing Page
-          ═══════════════════════════════════════ */}
-      <nav className="relative z-50 py-6">
+    <div className="min-h-screen relative overflow-hidden flex flex-col font-sans bg-[#080c18] text-white">
+
+      {/* ═══════ BACKGROUND EFFECTS ═══════ */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#6366f1]/15 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#8b5cf6]/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#06b6d4]/5 rounded-full blur-[150px]" />
+      </div>
+
+      {/* ═══════ GRID/NOISE BACKGROUND ═══════ */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), 
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px'
+        }}
+      />
+
+      {/* ═══════ NAVBAR ═══════ */}
+      <nav className="relative z-50 py-5">
         <div className="container-app flex items-center justify-between">
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-10">
             {/* Logo */}
-            <div className="text-3xl font-bold tracking-tight text-[#1a1a1a]">
-              toda<span className="text-[#f3701e]">LaPlata</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#8b5cf6] flex items-center justify-center shadow-lg shadow-[#6366f1]/20">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <span className="text-xl font-bold tracking-tight">
+                toda<span className="bg-gradient-to-r from-[#818cf8] to-[#a78bfa] bg-clip-text text-transparent">LaPlata</span>
+              </span>
             </div>
 
             {/* Links Desktop */}
-            <div className="hidden lg:flex items-center gap-6">
-              <a href="#" className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-opacity">Finanzas Personales</a>
-              <a href="#" className="text-sm font-medium text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors">Inversiones</a>
-              <a href="#" className="text-sm font-medium text-[#4b607f] bg-[#4b607f]/10 px-4 py-1.5 rounded-full pointer-events-none">Banca</a>
-              <a href="#" className="text-sm font-medium text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors">Tarjetas</a>
-              <a href="#" className="text-sm font-medium text-[#6b6b6b] hover:text-[#1a1a1a] transition-colors">Préstamos</a>
+            <div className="hidden lg:flex items-center gap-1">
+              {["Características", "Seguridad", "Precios"].map((link) => (
+                <a key={link} href="#" className="text-sm font-medium text-white/50 hover:text-white px-4 py-2 rounded-lg hover:bg-white/5 transition-all">
+                  {link}
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <SignedOut>
               <div className="hidden md:flex items-center gap-3">
                 <SignInButton mode="modal">
-                  <button className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-opacity">Iniciar sesión</button>
+                  <button className="text-sm font-medium text-white/60 hover:text-white px-4 py-2 rounded-lg transition-all">
+                    Iniciar sesión
+                  </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button className="btn-dark hidden md:inline-flex">Crear cuenta</button>
+                  <button className="btn-primary text-sm px-5 py-2.5">
+                    Empezar gratis
+                  </button>
                 </SignUpButton>
               </div>
             </SignedOut>
             <SignedIn>
               <div className="flex items-center gap-4">
-                <a href="/dashboard" className="text-sm font-semibold text-[#1a1a1a] hover:opacity-70 transition-opacity hidden sm:block">Ir al Dashboard</a>
+                <a href="/dashboard" className="btn-primary text-sm px-5 py-2.5">
+                  Ir al Dashboard
+                </a>
                 <UserButton afterSignOutUrl="/" />
               </div>
             </SignedIn>
@@ -46,186 +77,194 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* ═══════════════════════════════════════
-          HERO SECTION
-          ═══════════════════════════════════════ */}
-      <main className="flex-1 container-app relative z-10 flex flex-col lg:flex-row items-center justify-between pt-12 lg:pt-20 pb-24">
+      {/* ═══════ HERO SECTION ═══════ */}
+      <main className="flex-1 container-app relative z-10 flex flex-col items-center justify-center text-center pt-16 lg:pt-24 pb-32">
 
-        {/* LADO IZQUIERDO — Textos y Call to Actions */}
-        <div className="w-full lg:w-[45%] z-20 animate-slide-left">
-          {/* Badge Downloads */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="flex items-center gap-2 text-[#f3701e]">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
-                <path d="M12,22C6.477,22 2,17.523 2,12C2,6.477 6.477,2 12,2C17.523,2 22,6.477 22,12C22,17.523 17.523,22 12,22ZM12,20C16.418,20 20,16.418 20,12C20,7.582 16.418,4 12,4C7.582,4 4,7.582 4,12C4,16.418 7.582,20 12,20ZM11,7L13,7L13,17L11,17L11,7Z" />
+        {/* Badge */}
+        <div className="animate-fade-in inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
+          <div className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
+          <span className="text-xs font-medium text-white/70">+11 millones de usuarios confían en nosotros</span>
+        </div>
+
+        {/* HERO TITLE */}
+        <h1 className="animate-slide-up text-[48px] sm:text-[56px] md:text-[68px] lg:text-[80px] font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          Tus finanzas,{" "}
+          <span className="bg-gradient-to-r from-[#818cf8] via-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent animate-gradient">
+            bajo control total
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="animate-slide-up text-lg md:text-xl text-white/50 leading-relaxed mb-10 max-w-2xl" style={{ animationDelay: "100ms" }}>
+          La plataforma inteligente que te ayuda a registrar gastos, ahorrar dinero
+          y alcanzar tus metas financieras con claridad y simplicidad.
+        </p>
+
+        {/* CTAs */}
+        <div className="animate-slide-up flex flex-wrap items-center justify-center gap-4 mb-16" style={{ animationDelay: "200ms" }}>
+          <SignedOut>
+            <SignUpButton mode="modal">
+              <button className="btn-primary text-base px-8 py-3.5 shadow-xl shadow-[#6366f1]/25">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Comienza gratis
+              </button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <a href="/dashboard" className="btn-primary text-base px-8 py-3.5 shadow-xl shadow-[#6366f1]/25">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              <div className="text-sm font-bold text-[#1a1a1a] leading-tight">
-                +11 millones<br />descargas
+              Ir al Dashboard
+            </a>
+          </SignedIn>
+          <a href="#features" className="btn-secondary text-base px-8 py-3.5">
+            Ver características
+          </a>
+        </div>
+
+        {/* ═══════ FLOATING DASHBOARD PREVIEW ═══════ */}
+        <div className="animate-slide-up relative w-full max-w-4xl" style={{ animationDelay: "400ms" }}>
+          {/* Glow behind */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1]/20 via-[#8b5cf6]/15 to-[#06b6d4]/20 rounded-[28px] blur-2xl scale-95 opacity-60" />
+
+          {/* Dashboard Mockup Card */}
+          <div className="relative bg-[#111827]/80 backdrop-blur-xl rounded-[24px] border border-white/10 p-6 md:p-8 shadow-2xl overflow-hidden">
+
+            {/* Top bar mockup */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-[#ef4444]/80" />
+                <div className="w-3 h-3 rounded-full bg-[#f59e0b]/80" />
+                <div className="w-3 h-3 rounded-full bg-[#22c55e]/80" />
+              </div>
+              <div className="flex items-center gap-2 text-white/30 text-xs">
+                <div className="w-32 h-5 bg-white/5 rounded-full" />
               </div>
             </div>
-            <div className="w-px h-8 bg-[#1a1a1a]/10 mx-2"></div>
-            <div className="flex items-center gap-2 text-[#e2ba65]">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.8">
-                <path d="M12,22C6.477,22 2,17.523 2,12C2,6.477 6.477,2 12,2C17.523,2 22,6.477 22,12C22,17.523 17.523,22 12,22ZM12,20C16.418,20 20,16.418 20,12C20,7.582 16.418,4 12,4C7.582,4 4,7.582 4,12C4,16.418 7.582,20 12,20ZM11,7L13,7L13,17L11,17L11,7Z" />
-              </svg>
-              <div className="text-sm font-semibold text-[#6b6b6b] leading-tight">
-                "Mejor App de Finanzas"<br />🍎
-              </div>
+
+            {/* Stats Cards Row */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              {[
+                { label: "Balance Total", value: "$3.315.000", color: "from-[#6366f1] to-[#8b5cf6]", icon: "💰" },
+                { label: "Ingresos", value: "+$5.000.000", color: "from-[#10b981] to-[#059669]", icon: "📈" },
+                { label: "Gastos", value: "-$1.684.000", color: "from-[#ef4444] to-[#dc2626]", icon: "📉" },
+              ].map((card) => (
+                <div key={card.label} className="bg-white/5 rounded-2xl p-4 border border-white/5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-lg">{card.icon}</span>
+                    <span className="text-xs text-white/40 font-medium">{card.label}</span>
+                  </div>
+                  <p className={`text-lg md:text-xl font-bold bg-gradient-to-r ${card.color} bg-clip-text text-transparent`}>
+                    {card.value}
+                  </p>
+                </div>
+              ))}
             </div>
-          </div>
 
-          {/* Gran Título */}
-          <h1
-            className="text-[52px] lg:text-[72px] font-bold leading-[1.05] tracking-tight text-[#1a1a1a] mb-6"
-          >
-            Toma el control<br />de tus finanzas
-          </h1>
-
-          {/* Párrafo */}
-          <p className="text-[17px] text-[#3d3d3d] leading-relaxed mb-10 max-w-md">
-            La app inteligente que te ayuda a registrar gastos, ahorrar dinero y alcanzar tus metas financieras con facilidad.
-          </p>
-
-          {/* Botones App Stores */}
-          <div className="flex flex-wrap items-center gap-4 mb-10">
-            <a href="#" className="store-btn">
-              <span className="text-3xl text-white"></span>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-[#f5f0eb]/70">Descargar en la</span>
-                <span className="text-lg font-semibold leading-tight">App Store</span>
+            {/* Chart Placeholder */}
+            <div className="bg-white/[0.03] rounded-2xl p-5 border border-white/5">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-white/60">Flujo de Caja Mensual</span>
+                <div className="flex gap-3 text-xs text-white/30">
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#818cf8]" />Ingresos</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#ef4444]" />Gastos</span>
+                </div>
               </div>
-            </a>
-            <a href="#" className="store-btn">
-              <span className="text-3xl text-white">▶</span>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-[#f5f0eb]/70">Disponible en</span>
-                <span className="text-lg font-semibold leading-tight">Google Play</span>
-              </div>
-            </a>
-          </div>
-
-          {/* Reviews */}
-          <div>
-            <p className="text-sm font-semibold text-[#1a1a1a] mb-2">
-              Elegida por +11.000.000 de usuarios en el mundo
-            </p>
-            <div className="flex items-center gap-2">
-              <div className="flex text-[#f3701e] text-xl">
-                ★★★★★
-              </div>
-              <span className="text-sm font-bold text-[#1a1a1a]">4.7</span>
-              <span className="text-sm text-[#6b6b6b]">+283,000 valoraciones</span>
+              {/* SVG Chart */}
+              <svg viewBox="0 0 600 120" className="w-full h-24 md:h-32">
+                <defs>
+                  <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#818cf8" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#818cf8" stopOpacity="0" />
+                  </linearGradient>
+                  <linearGradient id="expenseGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ef4444" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {/* Income area */}
+                <path d="M0,100 C50,90 100,70 150,65 C200,60 250,50 300,40 C350,30 400,35 450,25 C500,15 550,20 600,10 L600,120 L0,120Z" fill="url(#incomeGrad)" />
+                <path d="M0,100 C50,90 100,70 150,65 C200,60 250,50 300,40 C350,30 400,35 450,25 C500,15 550,20 600,10" fill="none" stroke="#818cf8" strokeWidth="2.5" />
+                {/* Expense area */}
+                <path d="M0,110 C50,108 100,105 150,100 C200,95 250,85 300,80 C350,75 400,70 450,65 C500,70 550,60 600,55 L600,120 L0,120Z" fill="url(#expenseGrad)" />
+                <path d="M0,110 C50,108 100,105 150,100 C200,95 250,85 300,80 C350,75 400,70 450,65 C500,70 550,60 600,55" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="4 3" />
+              </svg>
             </div>
           </div>
         </div>
 
-        {/* LADO DERECHO — Celular + Elementos Flotantes */}
-        <div className="w-full lg:w-[50%] mt-20 lg:mt-0 relative h-[650px] flex items-center justify-center animate-slide-up" style={{ animationDelay: "200ms" }}>
-
-          {/* Múltiples Monedas Flotantes ($) */}
-          <div className="absolute top-10 right-10 w-16 h-16 bg-[#f3701e] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-[0_10px_20px_rgba(243,112,30,0.4)] border-b-4 border-r-4 border-[#c55a14] animate-float z-30">
-            $
+        {/* ═══════ TRUST METRICS ═══════ */}
+        <div className="animate-fade-in mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/30" style={{ animationDelay: "600ms" }}>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold text-white/80">4.8 ★</span>
+            <span className="text-xs">App Store</span>
           </div>
-          <div className="absolute bottom-16 right-20 w-20 h-20 bg-[#e2ba65] rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-[0_10px_25px_rgba(226,186,101,0.4)] border-b-4 border-r-4 border-[#c99f4d] animate-float z-30" style={{ animationDelay: "1.5s" }}>
-            $
+          <div className="w-px h-8 bg-white/10" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold text-white/80">11M+</span>
+            <span className="text-xs">Descargas</span>
           </div>
-          <div className="absolute top-1/4 left-10 w-12 h-12 bg-[#4b607f] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-[0_8px_15px_rgba(75,96,127,0.4)] border-b-4 border-r-4 border-[#3a4d66] animate-float-delayed z-0">
-            $
+          <div className="w-px h-8 bg-white/10" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold text-white/80">256-bit</span>
+            <span className="text-xs">Encriptación</span>
           </div>
-
-          {/* Tarjetas de Categorías Flotantes */}
-          <div className="absolute top-20 left-12 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-[#e8d8c9] z-30 animate-float" style={{ animationDelay: "0.5s", transform: "rotate(-5deg)" }}>
-            <div className="w-10 h-10 bg-[#f3701e]/10 rounded-xl flex items-center justify-center text-[#f3701e] text-xl">🛒</div>
-            <span className="text-[11px] font-bold text-[#1a1a1a]">Súper</span>
-            <span className="text-[10px] text-[#6b6b6b]">$45.90</span>
+          <div className="w-px h-8 bg-white/10" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-2xl font-bold text-white/80">99.9%</span>
+            <span className="text-xs">Uptime</span>
           </div>
-
-          <div className="absolute top-1/3 right-4 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-[#e8d8c9] z-30 animate-float-delayed" style={{ transform: "rotate(8deg)" }}>
-            <div className="w-10 h-10 bg-[#c95d45]/10 rounded-xl flex items-center justify-center text-[#c95d45] text-xl">☕</div>
-            <span className="text-[11px] font-bold text-[#1a1a1a]">Café</span>
-            <span className="text-[10px] text-[#6b6b6b]">$2.49</span>
-          </div>
-
-          <div className="absolute bottom-32 left-8 bg-white/90 backdrop-blur px-4 py-3 rounded-2xl shadow-xl flex flex-col items-center gap-1 border border-[#e8d8c9] z-30 animate-float" style={{ animationDelay: "1s", transform: "rotate(-12deg)" }}>
-            <div className="w-10 h-10 bg-[#4b607f]/10 rounded-xl flex items-center justify-center text-[#4b607f] text-xl">📺</div>
-            <span className="text-[11px] font-bold text-[#1a1a1a]">Netflix</span>
-            <span className="text-[10px] text-[#6b6b6b]">$17.99</span>
-          </div>
-
-          {/* CELLPHONE MOCKUP CSS */}
-          <div
-            className="relative w-[300px] h-[610px] bg-[#1a1a1a] rounded-[48px] p-3 shadow-2xl z-20 flex flex-col"
-            style={{ transform: "rotate(5deg)", boxShadow: "-20px 30px 60px rgba(26, 26, 26, 0.25)" }}
-          >
-            {/* Pantalla del celular */}
-            <div className="bg-[#f5f0eb] w-full h-full rounded-[38px] overflow-hidden relative flex flex-col pt-8 border-[0.5px] border-black/10">
-
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-50"></div>
-
-              {/* App Header */}
-              <div className="px-6 flex items-center justify-between mb-6 relative z-10">
-                <div className="text-xl font-bold" style={{ color: "#1a1a1a" }}>toda<span style={{ color: "#f3701e" }}>LaPlata</span></div>
-                <button className="text-[#1a1a1a] opacity-50">🔍</button>
-              </div>
-
-              {/* Meses Pestañas */}
-              <div className="px-4 flex justify-between items-center mb-8 text-[11px] uppercase tracking-wider font-semibold text-[#6b6b6b] border-b border-black/5 pb-2 relative z-10">
-                <span>Septiembre</span>
-                <span className="text-[#f3701e] border-b-2 border-[#f3701e] pb-2 -mb-[9px]">Octubre</span>
-                <span>Noviembre</span>
-              </div>
-
-              {/* Gráfico Donut Chart + Balance */}
-              <div className="relative z-10 flex-1 flex flex-col items-center">
-
-                {/* CSS Donut */}
-                <div className="relative w-48 h-48 rounded-full border-[18px] border-[#4b607f] shadow-[inset_0_4px_10px_rgba(0,0,0,0.05)] mx-auto"
-                  style={{
-                    borderTopColor: "#e2ba65",
-                    borderLeftColor: "#c95d45",
-                    borderRightColor: "#f3701e",
-                    transform: "rotate(45deg)"
-                  }}
-                >
-                  <div className="absolute inset-0 rounded-full border-[6px] border-[#f5f0eb]"></div>
-                </div>
-
-                {/* Texto Central */}
-                <div className="absolute top-24 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center text-center w-full z-20">
-                  <span className="text-[22px] font-bold text-[#1a1a1a]">$5,000.00</span>
-                  <span className="text-[13px] font-medium text-[#c95d45]">($1,684.00)</span>
-                </div>
-
-                {/* Badge Balance */}
-                <div className="mt-8 bg-[#4b607f] text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-md">
-                  Balance $3,315.00
-                </div>
-
-                {/* Botones de acción inferiores (+ y -) */}
-                <div className="flex justify-center gap-10 mt-auto mb-10 w-full px-12">
-                  <div className="w-14 h-14 rounded-full border-4 border-[#c95d45] text-[#c95d45] flex items-center justify-center text-3xl font-medium bg-[#c95d45]/5 shadow-sm cursor-pointer hover:bg-[#c95d45] hover:text-white transition-colors">-</div>
-                  <div className="w-14 h-14 rounded-full border-4 border-[#4b607f] text-[#4b607f] flex items-center justify-center text-3xl font-medium bg-[#4b607f]/5 shadow-sm cursor-pointer hover:bg-[#4b607f] hover:text-white transition-colors">+</div>
-                </div>
-
-              </div>
-
-              {/* Footer Phone */}
-              <div className="h-12 border-t border-black/5 flex items-center px-6">
-                <span className="text-[10px] text-[#6b6b6b] uppercase font-semibold">Transacciones</span>
-              </div>
-
-            </div>
-          </div>
-
         </div>
+
       </main>
 
-      {/* Botón Flotante (Izquierda abajo estilo soporte) */}
-      <button className="fixed bottom-6 left-6 btn-accent text-sm hidden md:flex items-center gap-2 z-50 rounded-lg shadow-lg">
-        <span>×</span> OBTENER CONSEJOS
-      </button>
+      {/* ═══════ FEATURES SECTION ═══════ */}
+      <section id="features" className="relative z-10 container-app pb-32">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Todo lo que necesitas para{" "}
+            <span className="bg-gradient-to-r from-[#818cf8] to-[#22d3ee] bg-clip-text text-transparent">controlar tu dinero</span>
+          </h2>
+          <p className="text-white/40 max-w-xl mx-auto">Herramientas poderosas diseñadas para ser simples y efectivas.</p>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { icon: "📊", title: "Dashboard inteligente", desc: "Visualiza tu situación financiera con gráficos interactivos y métricas en tiempo real." },
+            { icon: "🏷️", title: "Categorías personalizadas", desc: "Organiza tus gastos con categorías, íconos y colores a tu gusto." },
+            { icon: "💳", title: "Múltiples cuentas", desc: "Gestiona efectivo, bancos, tarjetas de crédito e inversiones en un solo lugar." },
+            { icon: "🔄", title: "Gastos recurrentes", desc: "Automatiza suscripciones, arriendos y pagos fijos para nunca olvidar uno." },
+            { icon: "📋", title: "Presupuestos mensuales", desc: "Define límites por categoría y recibe alertas cuando te acerques al tope." },
+            { icon: "📱", title: "App Móvil + Web", desc: "Accede desde cualquier dispositivo. Tus datos siempre sincronizados." },
+          ].map((feature) => (
+            <div key={feature.title} className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 hover:border-[#6366f1]/30 hover:bg-white/[0.05] transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#6366f1]/20 to-[#8b5cf6]/10 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                {feature.icon}
+              </div>
+              <h3 className="font-semibold text-lg mb-2 text-white/90">{feature.title}</h3>
+              <p className="text-sm text-white/40 leading-relaxed">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ FOOTER ═══════ */}
+      <footer className="relative z-10 border-t border-white/5 py-8">
+        <div className="container-app flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#6366f1] to-[#8b5cf6] flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span className="text-sm font-semibold text-white/50">todaLaPlata</span>
+          </div>
+          <p className="text-xs text-white/25">© 2026 todaLaPlata. Todos los derechos reservados.</p>
+        </div>
+      </footer>
     </div>
   );
 }

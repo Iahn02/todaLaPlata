@@ -1,74 +1,89 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════
-   🎨 DESIGN SYSTEM — todaLaPlata
-   Paleta Retro Americana: Beige, Steel Blue, Orange, Dark
+   🎨 DESIGN SYSTEM — todaLaPlata v2
+   Modern Fintech: Deep darks, vibrant gradients, glassmorphism
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
   /* Backgrounds */
-  --bg-page: #f5f0eb;
-  --bg-dark: #1a1a1a;
+  --bg-page: #f8f9fc;
+  --bg-dark: #0b0f1a;
   --bg-card: #ffffff;
-  --bg-nested: #ede6de;
+  --bg-nested: #f1f3f9;
+  --bg-sidebar: #0e1225;
 
   /* Text */
-  --text-primary: #1a1a1a;
-  --text-secondary: #3d3d3d;
-  --text-tertiary: #6b6b6b;
-  --text-light: #f5f0eb;
-  --text-muted: #9a9a9a;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #64748b;
+  --text-light: #f8fafc;
+  --text-muted: #94a3b8;
 
-  /* Brand */
-  --brand-primary: #1a1a1a;
-  --brand-accent: #f3701e;
-  --brand-secondary: #4b607f;
-  --brand-cream: #e8d8c9;
-  --brand-gold: #e2ba65;
+  /* Brand — Vibrant gradient tones */
+  --brand-primary: #6366f1;
+  --brand-accent: #8b5cf6;
+  --brand-secondary: #06b6d4;
+  --brand-glow: rgba(99, 102, 241, 0.15);
+  --brand-surface: #eef2ff;
 
   /* Semantic */
-  --income: #4b607f;
-  --expense: #c95d45;
-  --warning: #e2ba65;
-  --success: #5a8a6a;
+  --income: #10b981;
+  --expense: #ef4444;
+  --warning: #f59e0b;
+  --success: #22c55e;
 
   /* Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows (warm tone) */
-  --shadow-sm: 0 2px 8px rgba(26, 26, 26, 0.04);
-  --shadow-md: 0 8px 24px rgba(26, 26, 26, 0.08);
-  --shadow-lg: 0 16px 40px rgba(26, 26, 26, 0.12);
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 40px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
 
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 500ms cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Glass (light mode) */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
 }
 
 /* ═══════════════════════════════════════════════════════════════
    🌙 DARK MODE
    ═══════════════════════════════════════════════════════════════ */
 .dark {
-  --bg-page: #0f0f0f;
-  --bg-dark: #1a1a1a;
-  --bg-card: #1a1a1a;
-  --bg-nested: #252525;
+  --bg-page: #080c18;
+  --bg-dark: #060a14;
+  --bg-card: #111827;
+  --bg-nested: #1e293b;
+  --bg-sidebar: #0a0e1c;
 
-  --text-primary: #f5f0eb;
-  --text-secondary: #d4cfc9;
-  --text-tertiary: #9a9a9a;
-  --text-light: #f5f0eb;
-  --text-muted: #6b6b6b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-light: #f8fafc;
+  --text-muted: #475569;
 
-  --brand-primary: #f5f0eb;
-  --brand-cream: #3d3d3d;
+  --brand-primary: #818cf8;
+  --brand-accent: #a78bfa;
+  --brand-secondary: #22d3ee;
+  --brand-glow: rgba(129, 140, 248, 0.12);
+  --brand-surface: rgba(99, 102, 241, 0.08);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 30px rgba(129, 140, 248, 0.12);
+
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.06);
 
   color-scheme: dark;
 }
@@ -86,12 +101,18 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--bg-page);
   color: var(--text-primary);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container-app {
@@ -102,117 +123,147 @@ body {
 }
 
 /* ───────────────────────────────────────────
-   🔘 BOTONES
+   🔘 BUTTONS
    ─────────────────────────────────────────── */
-.btn-dark {
-  background-color: #1a1a1a;
-  color: #f5f0eb;
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
   padding: 0.75rem 1.75rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  border: 1px solid var(--glass-border);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.btn-dark:hover {
-  background-color: #f3701e;
-  color: white;
-  transform: translateY(-2px);
-}
-
-.btn-accent {
-  background-color: var(--brand-accent);
-  color: white;
-  padding: 0.75rem 1.75rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-}
-
-.btn-accent:hover {
-  background-color: #d55f15;
-  color: white;
+.btn-secondary:hover {
+  background: var(--brand-glow);
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
   transform: translateY(-2px);
 }
 
 /* App Store Buttons */
 .store-btn {
-  background-color: #1a1a1a;
-  border-radius: 12px;
-  padding: 0.5rem 1.2rem;
+  background: var(--bg-dark);
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 1.4rem;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: #f5f0eb;
+  color: #f8fafc;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .store-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(26, 26, 26, 0.3);
-  background-color: #f3701e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color: var(--brand-primary);
 }
 
 /* ───────────────────────────────────────────
-   ✨ ANIMACIONES FLOTANTES
+   🃏 GLASS CARD
+   ─────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* ───────────────────────────────────────────
+   ✨ ANIMATIONS
    ─────────────────────────────────────────── */
 @keyframes float {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-15px) rotate(2deg);
-  }
-
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
 @keyframes float-delayed {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
 }
 
 @keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.3); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .animate-float {
@@ -233,11 +284,50 @@ body {
   opacity: 0;
 }
 
-/* Phone Mockup Donut Chart */
-.donut-chart {
-  background: conic-gradient(var(--expense) 0% 15%,
-      var(--brand-secondary) 15% 65%,
-      var(--brand-accent) 65% 90%,
-      var(--brand-gold) 90% 100%);
-  border-radius: 50%;
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* ───────────────────────────────────────────
+   🖌 SCROLLBAR
+   ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Hide scrollbar for no-scrollbar class */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ───────────────────────────────────────────
+   📊 CHART TOOLTIP OVERRIDES
+   ─────────────────────────────────────────── */
+.recharts-default-tooltip {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
 }

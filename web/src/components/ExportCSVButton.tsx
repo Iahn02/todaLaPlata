@@ -12,8 +12,6 @@ export function ExportCSVButton() {
         try {
             setIsExporting(true);
             const csvData = await utils.transactions.exportCSV.fetch();
-
-            // Create and download blob
             const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
@@ -34,8 +32,8 @@ export function ExportCSVButton() {
         <button
             onClick={handleExport}
             disabled={isExporting}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl font-semibold text-sm transition-all
-                bg-[var(--bg-nested)] text-[var(--text-tertiary)] hover:bg-[#f3701e]/10 hover:text-[#f3701e]
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all
+                bg-[var(--bg-nested)] border border-[var(--glass-border)] text-[var(--text-tertiary)] hover:bg-[#6366f1]/10 hover:text-[#6366f1] dark:hover:text-[#818cf8]
                 disabled:opacity-50 disabled:cursor-not-allowed"
         >
             <Download className={`w-4 h-4 ${isExporting ? "animate-bounce" : ""}`} />
