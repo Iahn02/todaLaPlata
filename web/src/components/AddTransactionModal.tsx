@@ -41,7 +41,12 @@ function parseClpInput(formatted: string): number {
     return Number(digits) || 0;
 }
 
-export function AddTransactionButton() {
+interface AddTransactionButtonProps {
+    variant?: "fab" | "solid";
+    className?: string;
+}
+
+export function AddTransactionButton({ variant = "fab", className = "" }: AddTransactionButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [displayAmount, setDisplayAmount] = useState("");
     const utils = trpc.useUtils();
@@ -132,15 +137,27 @@ export function AddTransactionButton() {
 
     return (
         <>
-            <button
-                onClick={handleOpen}
-                className="fixed bottom-24 md:bottom-10 right-6 md:right-10 z-40 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:shadow-xl hover:shadow-[#6366f1]/30 text-white rounded-full p-4 shadow-lg shadow-[#6366f1]/20 hover:scale-105 transition-all duration-300"
-            >
-                <span className="sr-only">Añadir Transacción</span>
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-                </svg>
-            </button>
+            {variant === "fab" ? (
+                <button
+                    onClick={handleOpen}
+                    className={`fixed bottom-24 md:bottom-10 right-6 md:right-10 z-40 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:shadow-xl hover:shadow-[#6366f1]/30 text-white rounded-full p-4 shadow-lg shadow-[#6366f1]/20 hover:scale-105 transition-all duration-300 ${className}`}
+                >
+                    <span className="sr-only">Añadir Transacción</span>
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                </button>
+            ) : (
+                <button
+                    onClick={handleOpen}
+                    className={`flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:shadow-lg hover:shadow-[#6366f1]/25 text-white rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0 ${className}`}
+                >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span>Nueva Transacción</span>
+                </button>
+            )}
 
             <AnimatePresence>
                 {isOpen && (

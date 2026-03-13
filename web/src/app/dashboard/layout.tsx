@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import { getCurrentUser } from "@/lib/prisma";
-import { Navigation } from "@/components/Navigation";
+import { DesktopNavigation, MobileNavigation } from "@/components/Navigation";
 import { AddTransactionButton } from "@/components/AddTransactionModal";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -33,7 +33,7 @@ export default async function DashboardLayout({
                     </span>
                 </div>
 
-                <Navigation />
+                <DesktopNavigation />
 
                 {/* Theme Toggle */}
                 <div className="mt-4">
@@ -77,13 +77,13 @@ export default async function DashboardLayout({
                 </header>
 
                 {/* Dashboard Pages Content */}
-                <main className="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8">
+                <main className="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 md:p-8 xl:p-10">
                     {children}
                 </main>
             </div>
 
             {/* Navigation Mobile */}
-            <Navigation />
+            <MobileNavigation />
 
             {/* Global FAB */}
             <AddTransactionButton />

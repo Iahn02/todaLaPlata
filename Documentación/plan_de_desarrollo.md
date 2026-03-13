@@ -101,7 +101,7 @@
 | 5.1   | ✅ Transacciones recurrentes (sueldo, arriendo, Netflix, etc.)               |
 | 5.2   | ✅ Exportar datos a CSV/Excel                                                |
 | 5.3   | ✅ Dark mode / Light mode con persistencia                                   |
-| 5.4   | Dashboard con análisis avanzado: comparativa mes a mes, predicción de gastos |
+| 5.4   | ✅ Dashboard con análisis avanzado: comparativa mes a mes, predicción de gastos |
 | 5.5   | Multi-moneda (CLP, USD, EUR) con tasas de cambio                             |
 | 5.6   | PWA — hacer la web instalable como app en cualquier dispositivo              |
 | 5.7   | ✅ Búsqueda global con debouncing                                            |
